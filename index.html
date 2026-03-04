@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Bhootagappa — by JustUtter Horror</title>
+<meta name="theme-color" content="#060309">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bhootagappa">
+<meta name="description" content="Bhootagappa by JustUtter Horror — Solve the dark riddles. Spot the horror creatures. Survive the night.">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=IM+Fell+English:ital@0;1&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#060309;--parchment:#d4c9a8;--ash:#9a9080;--crimson:#7a0f1e;--gore:#b01c2e;--ember:#c8460a;--void:#0d0510;--green:#2a6b1a;--greenlit:#5db840}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{font-family:'IM Fell English',serif;color:var(--parchment);background:var(--void);height:100%;overflow:hidden;cursor:crosshair;user-select:none;position:relative}
+body::before{content:'';position:absolute;inset:0;z-index:9998;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.35;mix-blend-mode:overlay}
+body::after{content:'';position:absolute;inset:0;z-index:9997;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.018) 3px,rgba(0,0,0,.018) 4px);opacity:.28}
+
+/* ── KEYFRAMES ── */
+@keyframes flicker{0%,100%{opacity:1}88%{opacity:1}89%{opacity:.4}91%{opacity:.9}93%{opacity:.3}95%{opacity:.95}97%{opacity:.6}98%{opacity:1}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+@keyframes drift{0%,100%{transform:translateX(0)translateY(0)}33%{transform:translateX(6px)translateY(-4px)}66%{transform:translateX(-4px)translateY(6px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes correctPulse{0%{box-shadow:0 0 0 0 rgba(176,28,46,0)}30%{box-shadow:0 0 0 14px rgba(176,28,46,.4)}100%{box-shadow:0 0 0 28px rgba(176,28,46,0)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes drip{0%{height:0;opacity:1}100%{height:70px;opacity:0}}
+@keyframes orbPulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.3);opacity:.9}}
+@keyframes stagger{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes titleDrop{0%{opacity:0;letter-spacing:.8em;filter:blur(6px)}100%{opacity:1;letter-spacing:.04em;filter:blur(0)}}
+@keyframes timerPulse{0%,100%{color:var(--parchment)}50%{color:var(--gore);text-shadow:0 0 16px var(--crimson)}}
+@keyframes achieveSlide{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes achieveLeave{from{transform:translateX(0);opacity:1}to{transform:translateX(120%);opacity:0}}
+@keyframes popIn{0%{transform:scale(0.2);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes transIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes foundRing{0%{transform:translate(-50%,-50%)scale(.4);opacity:1}100%{transform:translate(-50%,-50%)scale(3.2);opacity:0}}
+@keyframes wrongFlash{0%,100%{background:transparent}50%{background:rgba(139,0,0,.35)}}
+@keyframes creatureWiggle{0%,100%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}75%{transform:translate(2px,-1px)}}
+@keyframes creatureFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes particle{0%{transform:translate(0,0)scale(1);opacity:1}100%{transform:translate(var(--px),var(--py))scale(0);opacity:0}}
+@keyframes modeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 8px rgba(176,28,46,.3)}50%{box-shadow:0 0 20px rgba(176,28,46,.7)}}
+
+/* ── SCREENS ── */
+.screen{display:none;position:absolute;inset:0;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}
+
+/* ══ INTRO ══ */
+#s-intro{align-items:center;justify-content:center;background:radial-gradient(ellipse at 40% 20%,#1a0a0e 0%,#0a0308 40%,#060309 100%)}
+.intro-mist{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.mist-band{position:absolute;width:250%;height:140px;left:-75%;border-radius:50%;background:radial-gradient(ellipse at 50%,rgba(60,20,30,.2),transparent 70%);animation:drift 15s ease-in-out infinite}
+.mist-band:nth-child(2){top:25%;animation-delay:-5s;opacity:.5}
+.mist-band:nth-child(3){bottom:8%;animation-delay:-10s;height:100px;opacity:.35}
+.drip-bar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-around;padding:0 6%}
+.drip{width:2px;background:linear-gradient(180deg,var(--gore),var(--crimson));border-radius:0 0 50% 50%;animation:drip var(--dur) ease-in infinite var(--del)}
+.intro-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.9rem;padding:1rem;max-width:480px;width:100%}
+.title-eyeball{width:66px;height:66px;animation:breathe 3s ease-in-out infinite,flicker 10s infinite 4s}
+.title-eyeball svg{width:100%;height:100%}
+h1.game-title{font-family:'Uncial Antiqua',cursive;font-size:clamp(1.9rem,7vw,3.6rem);text-align:center;line-height:1;color:var(--parchment);text-shadow:0 0 28px var(--crimson),0 0 55px rgba(120,0,20,.4);animation:titleDrop 1.4s cubic-bezier(.2,1,.3,1) forwards,flicker 9s infinite 3s}
+.title-tagline{font-style:italic;font-size:.82rem;color:var(--ash);letter-spacing:.12em;text-align:center}
+.name-field{width:100%;background:rgba(6,3,9,.85);border:1px solid rgba(122,15,30,.5);border-bottom:2px solid var(--crimson);color:var(--parchment);font-family:'IM Fell English',serif;font-size:1rem;padding:.65rem 1rem;text-align:center;outline:none;letter-spacing:.06em;transition:border-color .3s,box-shadow .3s}
+.name-field::placeholder{color:rgba(154,144,128,.35);font-style:italic}
+.name-field:focus{border-color:var(--gore);box-shadow:0 4px 18px rgba(176,28,46,.3)}
+.intro-btns{display:flex;flex-direction:column;gap:.55rem;width:100%;align-items:center}
+.btn{font-family:'Uncial Antiqua',cursive;letter-spacing:.08em;cursor:pointer;border:1px solid var(--crimson);background:linear-gradient(135deg,rgba(90,10,18,.9),rgba(122,15,30,.7));color:var(--parchment);padding:.62rem 2rem;font-size:.98rem;position:relative;overflow:hidden;transition:all .22s;text-shadow:0 1px 4px rgba(0,0,0,.8);box-shadow:0 0 16px rgba(122,15,30,.3)}
+.btn:hover{box-shadow:0 0 30px rgba(176,28,46,.6);transform:translateY(-1px)}
+.btn:active{transform:scale(.97)}
+.btn-ghost{background:transparent;border-color:rgba(122,15,30,.35);color:var(--ash);font-family:'IM Fell English',serif;font-style:italic;font-size:.85rem;letter-spacing:.04em}
+.btn-ghost:hover{color:var(--parchment);border-color:rgba(176,28,46,.5);background:rgba(122,15,30,.1)}
+.intro-pills{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:center}
+.pill{font-family:'VT323',monospace;font-size:.72rem;letter-spacing:.1em;padding:.15rem .5rem;border:1px solid rgba(122,15,30,.3);color:rgba(154,144,128,.55);background:rgba(122,15,30,.05)}
+
+/* ══ SHARED HUD ══ */
+#hud{position:absolute;top:0;left:0;right:0;z-index:300;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:.42rem .75rem;gap:.4rem;background:linear-gradient(180deg,rgba(6,3,9,.98) 65%,transparent);border-bottom:1px solid rgba(122,15,30,.2)}
+.hud-block{display:flex;flex-direction:column;gap:.04rem}
+.hud-block.right{align-items:flex-end}
+.hud-lbl{font-family:'VT323',monospace;font-size:.62rem;letter-spacing:.2em;color:rgba(154,144,128,.45);text-transform:uppercase}
+.hud-val{font-family:'VT323',monospace;font-size:1.35rem;color:var(--parchment);line-height:1}
+.hud-val.score{color:var(--gore);text-shadow:0 0 8px var(--crimson)}
+.hud-timer{font-family:'VT323',monospace;font-size:2.2rem;color:var(--parchment);text-align:center;line-height:1}
+.hud-timer.warn{animation:timerPulse .38s infinite}
+#combo-display{font-family:'VT323',monospace;font-size:.68rem;color:var(--ember);letter-spacing:.1em;height:.85rem}
+#prog-wrap{position:absolute;top:44px;left:0;right:0;height:2px;z-index:290;background:rgba(255,255,255,.04)}
+#prog-fill{height:100%;background:linear-gradient(90deg,var(--crimson),var(--gore));transition:width .5s;box-shadow:0 0 6px var(--gore)}
+
+/* MODE BADGE */
+#mode-badge{position:absolute;top:47px;left:50%;transform:translateX(-50%);z-index:280;font-family:'VT323',monospace;font-size:.65rem;letter-spacing:.2em;padding:.15rem .6rem;border:1px solid rgba(122,15,30,.35);background:rgba(6,3,9,.9);color:var(--ember);text-transform:uppercase;animation:modeSlide .4s ease-out}
+
+/* ══ SCENE VIEWPORT ══ */
+#scene-viewport{position:absolute;top:46px;left:0;right:0;bottom:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#scene-bg{position:absolute;inset:0;transition:background 1.2s}
+#scene-art{position:absolute;inset:0;pointer-events:none}
+
+/* ══ RIDDLE PANEL ══ */
+#riddle-panel{position:absolute;bottom:0;left:0;right:0;z-index:200;max-width:680px;margin:0 auto;padding:.55rem .75rem .65rem;background:linear-gradient(180deg,transparent,rgba(6,3,9,.96) 12%,rgba(6,3,9,1))}
+.scene-name-lbl{font-family:'VT323',monospace;font-size:.65rem;letter-spacing:.25em;color:rgba(154,144,128,.38);text-transform:uppercase;text-align:center;margin-bottom:.22rem}
+#riddle-card{background:rgba(10,6,14,.97);border:1px solid rgba(122,15,30,.4);border-top:2px solid rgba(122,15,30,.6);padding:.72rem;position:relative;box-shadow:0 -8px 28px rgba(0,0,0,.7)}
+#riddle-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gore),transparent)}
+.riddle-num{font-family:'VT323',monospace;font-size:.62rem;letter-spacing:.3em;color:var(--crimson)}
+.riddle-tag{display:inline-block;font-family:'VT323',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--ember);text-transform:uppercase}
+#riddle-text{font-size:clamp(.8rem,2.1vw,.95rem);font-style:italic;line-height:1.6;color:var(--parchment);text-shadow:0 1px 3px rgba(0,0,0,.8);min-height:2.2rem}
+#hint-text{font-size:.75rem;font-style:italic;color:rgba(200,70,10,.85);padding-top:.3rem;display:none;animation:fadeIn .4s}
+#hint-wrap{display:flex;justify-content:space-between;align-items:center;margin-top:.45rem}
+#hint-btn{font-family:'VT323',monospace;font-size:.72rem;letter-spacing:.15em;background:none;border:1px solid rgba(122,15,30,.3);color:rgba(154,144,128,.5);padding:.16rem .48rem;cursor:pointer;transition:all .2s}
+#hint-btn:hover:not(:disabled){color:var(--ash);border-color:rgba(122,15,30,.6)}
+#hint-btn:disabled{opacity:.28;cursor:default}
+#pts-display{font-family:'VT323',monospace;font-size:.68rem;color:rgba(154,144,128,.38);letter-spacing:.08em}
+#answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:.38rem;margin-top:.45rem}
+.answer-btn{font-family:'IM Fell English',serif;font-size:.8rem;font-style:italic;background:rgba(18,10,22,.85);border:1px solid rgba(122,15,30,.28);color:var(--ash);padding:.52rem .62rem;cursor:pointer;text-align:left;position:relative;overflow:hidden;transition:all .18s;line-height:1.25;display:flex;align-items:flex-start;gap:.38rem}
+.answer-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--crimson);opacity:0;transition:opacity .2s}
+.answer-btn:hover{background:rgba(38,16,26,.9);border-color:rgba(176,28,46,.5);color:var(--parchment)}
+.answer-btn:hover::before{opacity:1}
+.answer-btn.correct{background:rgba(28,52,18,.85);border-color:rgba(80,140,40,.7);color:#b8e08a;animation:correctPulse .5s ease-out}
+.answer-btn.wrong{background:rgba(75,8,15,.85);border-color:rgba(176,28,46,.85);color:var(--gore);animation:wrongShake .35s ease-out}
+.answer-btn.disabled{pointer-events:none;opacity:.45}
+.answer-letter{font-family:'VT323',monospace;font-size:.98rem;color:var(--crimson);flex-shrink:0;margin-top:-.04rem}
+
+/* ══ HUNT PANEL ══ */
+#hunt-panel{position:absolute;bottom:0;left:0;right:0;z-index:200;max-width:680px;margin:0 auto;padding:.45rem .75rem .6rem;background:linear-gradient(180deg,transparent,rgba(6,3,9,.96) 12%,rgba(6,3,9,1));display:none}
+#hunt-scene-name{font-family:'VT323',monospace;font-size:.65rem;letter-spacing:.25em;color:rgba(154,144,128,.38);text-transform:uppercase;text-align:center;margin-bottom:.22rem}
+#hunt-instruction{background:rgba(10,6,14,.97);border:1px solid rgba(122,15,30,.4);border-top:2px solid rgba(93,184,64,.4);padding:.6rem .72rem;position:relative;box-shadow:0 -8px 28px rgba(0,0,0,.7)}
+#hunt-instruction::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--greenlit),transparent)}
+#hunt-title{font-family:'VT323',monospace;font-size:.7rem;letter-spacing:.25em;color:var(--greenlit);text-transform:uppercase;margin-bottom:.25rem}
+#hunt-desc{font-size:clamp(.78rem,2vw,.9rem);font-style:italic;color:var(--parchment);line-height:1.5}
+#creature-list{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.45rem}
+.creature-chip{font-family:'VT323',monospace;font-size:.7rem;letter-spacing:.08em;padding:.2rem .55rem;border:1px solid rgba(93,184,64,.25);color:rgba(93,184,64,.55);background:rgba(93,184,64,.05);text-transform:uppercase;transition:all .3s}
+.creature-chip.found{color:var(--greenlit);border-color:var(--greenlit);background:rgba(93,184,64,.12);text-decoration:line-through;box-shadow:0 0 6px rgba(93,184,64,.3)}
+
+/* ══ HUNT SCENE LAYER ══ */
+#hunt-scene-layer{position:absolute;top:46px;left:0;right:0;bottom:0;z-index:100;cursor:crosshair}
+.creature-target{position:absolute;cursor:crosshair;z-index:110;transition:opacity .4s}
+.creature-target:hover svg{filter:drop-shadow(0 0 6px rgba(176,28,46,.8))}
+.creature-target.found-state{opacity:.25;pointer-events:none}
+.found-ring{position:fixed;pointer-events:none;z-index:500;width:70px;height:70px;border-radius:50%;border:2px solid var(--gore);transform:translate(-50%,-50%);animation:foundRing .55s ease-out forwards}
+.wrong-overlay{position:fixed;inset:0;pointer-events:none;z-index:490;animation:wrongFlash .35s ease-out forwards}
+.ptspop{position:fixed;font-family:'VT323',monospace;font-size:1.5rem;color:var(--gore);pointer-events:none;z-index:510;text-shadow:0 0 8px var(--crimson);animation:fadeUp .75s ease-out forwards}
+.particle-dot{position:fixed;pointer-events:none;z-index:505;width:5px;height:5px;border-radius:50%;animation:particle .7s ease-out forwards}
+
+/* Miss click ripple */
+.miss-ripple{position:fixed;pointer-events:none;z-index:495;width:28px;height:28px;border-radius:50%;border:1px solid rgba(139,0,0,.45);transform:translate(-50%,-50%);animation:foundRing .45s ease-out forwards}
+
+/* ══ ROUND TRANSITION ══ */
+#round-trans{position:absolute;inset:0;z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(6,3,9,.97);pointer-events:none;transition:opacity .5s;animation:transIn .4s ease-out}
+#round-trans.hidden{opacity:0;pointer-events:none}
+.trans-setting{font-family:'VT323',monospace;font-size:.72rem;letter-spacing:.4em;color:var(--crimson);text-transform:uppercase;margin-bottom:.5rem}
+.trans-title{font-family:'Uncial Antiqua',cursive;font-size:clamp(1.5rem,4.5vw,2.8rem);color:var(--parchment);text-shadow:0 0 26px var(--crimson);text-align:center;padding:0 1rem}
+.trans-mode{font-family:'VT323',monospace;font-size:.72rem;letter-spacing:.2em;margin-top:.5rem;padding:.2rem .7rem;border:1px solid rgba(122,15,30,.4);text-transform:uppercase}
+.trans-mode.hunt{color:var(--greenlit);border-color:rgba(93,184,64,.4)}
+.trans-mode.riddle{color:var(--ember);border-color:rgba(200,70,10,.4)}
+.trans-desc{font-style:italic;color:var(--ash);font-size:.85rem;margin-top:.4rem;text-align:center;padding:0 1.5rem}
+.trans-bar{width:170px;height:2px;background:rgba(255,255,255,.07);margin-top:1.3rem;overflow:hidden}
+.trans-bar-fill{height:100%;background:var(--gore);width:0;transition:width 2.2s linear}
+
+/* ══ ACHIEVEMENT TOAST ══ */
+#achieve-toast{position:absolute;top:58px;right:.75rem;z-index:900;background:rgba(10,6,14,.97);border:1px solid var(--ember);border-left:3px solid var(--ember);padding:.55rem .85rem;max-width:220px;pointer-events:none;box-shadow:0 0 22px rgba(200,70,10,.3);display:none}
+#achieve-toast.show{display:block;animation:achieveSlide .4s ease-out forwards}
+#achieve-toast.hide{animation:achieveLeave .38s ease-in forwards}
+.toast-label{font-family:'VT323',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--ember);text-transform:uppercase}
+.toast-name{font-size:.85rem;color:var(--parchment);margin-top:.12rem}
+.toast-desc{font-size:.7rem;font-style:italic;color:var(--ash);margin-top:.07rem}
+
+/* ══ RESULTS ══ */
+#s-results{align-items:center;overflow-y:auto;background:radial-gradient(ellipse at 50% 0%,#1a0510 0%,#080308 50%,#040206 100%);padding:1.1rem .75rem 3rem}
+.result-skull{font-size:2.3rem;margin-bottom:.18rem;filter:drop-shadow(0 0 16px var(--crimson));animation:breathe 3s ease-in-out infinite}
+.result-headline{font-family:'Uncial Antiqua',cursive;font-size:clamp(1.4rem,5vw,2.5rem);color:var(--parchment);text-shadow:0 0 20px var(--crimson);text-align:center;animation:flicker 8s infinite}
+.result-score-big{font-family:'VT323',monospace;font-size:clamp(3.6rem,13vw,5.5rem);color:var(--gore);line-height:1;text-shadow:0 0 32px var(--crimson)}
+.result-rank{font-style:italic;color:var(--ash);font-size:.8rem;margin-top:.12rem;text-align:center}
+.result-cards{width:100%;max-width:460px;display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin:.65rem 0}
+.stat-card{background:rgba(10,6,14,.8);border:1px solid rgba(122,15,30,.25);padding:.55rem .65rem}
+.stat-card-label{font-family:'VT323',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--ash);text-transform:uppercase}
+.stat-card-val{font-family:'VT323',monospace;font-size:1.38rem;color:var(--parchment);line-height:1.1;margin-top:.12rem}
+.stat-card-val.hi{color:var(--gore)}
+.stat-card-val.hunt-hi{color:var(--greenlit)}
+.round-breakdown{width:100%;max-width:460px;margin:.38rem 0}
+.rb-row{display:flex;justify-content:space-between;align-items:center;padding:.38rem 0;border-bottom:1px solid rgba(122,15,30,.14);font-size:.78rem;animation:stagger .4s ease-out both}
+.rb-tag{font-family:'VT323',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;margin-right:.35rem}
+.rb-tag.riddle{color:var(--ember)}
+.rb-tag.hunt{color:var(--greenlit)}
+.rb-score{font-family:'VT323',monospace;font-size:.9rem;color:var(--gore)}
+.badges-section{width:100%;max-width:460px;margin:.65rem 0}
+.badges-title{font-family:'VT323',monospace;font-size:.62rem;letter-spacing:.3em;color:var(--ash);text-transform:uppercase;margin-bottom:.4rem}
+.badges-grid{display:flex;gap:.32rem;flex-wrap:wrap}
+.badge-chip{font-family:'VT323',monospace;font-size:.72rem;letter-spacing:.1em;padding:.18rem .5rem;border:1px solid var(--ember);color:var(--ember);background:rgba(200,70,10,.08);text-transform:uppercase;animation:popIn .4s ease-out both}
+.badge-chip.rare{border-color:var(--gore);color:var(--gore);background:rgba(176,28,46,.08)}
+.badge-chip.legendary{border-color:#c8a010;color:#c8a010;background:rgba(200,160,16,.08)}
+.no-badges{font-style:italic;color:rgba(154,144,128,.36);font-size:.8rem}
+.result-btns{display:flex;gap:.55rem;margin-top:1.1rem;flex-wrap:wrap;justify-content:center}
+
+/* ══ LEADERBOARD ══ */
+#s-lb{align-items:center;overflow-y:auto;background:radial-gradient(ellipse at 50% 10%,#12060f 0%,#060309 60%,#030205 100%);padding:1.1rem .75rem 3rem}
+.lb-head{font-family:'Uncial Antiqua',cursive;font-size:clamp(1.3rem,4.5vw,2.3rem);text-shadow:0 0 16px var(--crimson);text-align:center;margin-bottom:.9rem}
+.lb-tabs{display:flex;gap:.38rem;margin-bottom:.75rem}
+.lb-tab{font-family:'VT323',monospace;font-size:.78rem;letter-spacing:.15em;padding:.23rem .75rem;border:1px solid rgba(122,15,30,.3);color:var(--ash);cursor:pointer;transition:all .2s;text-transform:uppercase}
+.lb-tab.active{border-color:var(--gore);color:var(--parchment);background:rgba(122,15,30,.2)}
+.lb-table{width:100%;max-width:500px}
+.lb-row{display:grid;grid-template-columns:30px 1fr 62px 44px;align-items:center;gap:.4rem;padding:.52rem .45rem;border-bottom:1px solid rgba(122,15,30,.12);animation:stagger .35s ease-out both}
+.lb-row:hover{background:rgba(122,15,30,.07)}
+.lb-rank{font-family:'VT323',monospace;font-size:.9rem;color:var(--crimson);text-align:center}
+.lb-rank.crown{color:#c8a010;font-size:1.05rem}
+.lb-name{font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-name.you{color:var(--gore)}
+.lb-score-val{font-family:'VT323',monospace;font-size:.95rem;color:var(--gore);text-align:right}
+.lb-runs{font-family:'VT323',monospace;font-size:.62rem;color:var(--ash);text-align:right}
+.lb-empty{text-align:center;font-style:italic;color:rgba(154,144,128,.36);padding:2rem;font-size:.85rem}
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:1px solid rgba(122,15,30,.1);font-size:.78rem;animation:stagger .3s ease-out both}
+.hist-date{font-family:'VT323',monospace;font-size:.62rem;color:var(--ash)}
+.hist-score{font-family:'VT323',monospace;font-size:.9rem;color:var(--gore)}
+#install-bar.on{display:flex!important}
+</style>
+</head>
+<body>
+
+<!-- ═══ INTRO ═══ -->
+<div id="s-intro" class="screen active">
+  <div class="intro-mist"><div class="mist-band"></div><div class="mist-band"></div><div class="mist-band"></div></div>
+  <div class="drip-bar" id="drip-bar"></div>
+  <div class="intro-content">
+    <div class="title-eyeball">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="eg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#7a0f1e" stop-opacity=".55"/><stop offset="100%" stop-color="#060309" stop-opacity="0"/></radialGradient></defs>
+        <ellipse cx="40" cy="40" rx="37" ry="37" fill="url(#eg)"/>
+        <path d="M5 40 Q40 8 75 40 Q40 72 5 40Z" fill="#d4c9a8" opacity=".95"/>
+        <circle cx="40" cy="40" r="13" fill="#7a0f1e"/>
+        <circle cx="40" cy="40" r="7.5" fill="#0d0510"/>
+        <circle cx="44" cy="36" r="2.8" fill="white" opacity=".65"/>
+        <path d="M5 40 Q22 32 32 38" stroke="#b01c2e" stroke-width="1.4" fill="none" opacity=".55"/>
+        <path d="M5 40 Q22 48 32 42" stroke="#b01c2e" stroke-width="1.4" fill="none" opacity=".55"/>
+        <path d="M75 40 Q58 32 48 38" stroke="#b01c2e" stroke-width="1.4" fill="none" opacity=".55"/>
+        <path d="M75 40 Q58 48 48 42" stroke="#b01c2e" stroke-width="1.4" fill="none" opacity=".55"/>
+      </svg>
+    </div>
+    <h1 class="game-title">Bhootagappa</h1>
+    <p class="title-tagline">by JustUtter Horror — Riddles &amp; the Hunt</p>
+    <input type="text" class="name-field" id="player-name" placeholder="Whisper your name..." maxlength="20" autocomplete="off" spellcheck="false">
+    <div class="intro-btns">
+      <button class="btn" onclick="startGame()">⚔ Begin the Reckoning</button>
+      <button class="btn btn-ghost" onclick="goLB('global')">☠ Hall of the Fallen</button>
+    </div>
+    <div class="intro-pills">
+      <span class="pill">🔍 RIDDLES</span>
+      <span class="pill">👁 CREATURE HUNT</span>
+      <span class="pill">3 SETTINGS</span>
+      <span class="pill">FULL TRACKING</span>
+    </div>
+    <div style="font-family:'VT323',monospace;font-size:.7rem;letter-spacing:.2em;color:rgba(154,144,128,.3);text-transform:uppercase;margin-top:.2rem">A JustUtter Horror Production</div>
+  </div>
+</div>
+
+<!-- ═══ GAME ═══ -->
+<div id="s-game" class="screen">
+  <div id="hud">
+    <div class="hud-block">
+      <div class="hud-lbl">Score</div>
+      <div class="hud-val score" id="h-score">0</div>
+      <div id="combo-display"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="hud-lbl">Time</div>
+      <div class="hud-timer" id="h-timer">--</div>
+    </div>
+    <div class="hud-block right">
+      <div class="hud-lbl" id="h-progress-lbl">Riddle</div>
+      <div class="hud-val" id="h-progress">0/0</div>
+      <div class="hud-lbl" id="h-player" style="margin-top:.12rem;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+    </div>
+  </div>
+  <div id="prog-wrap"><div id="prog-fill" style="width:0%"></div></div>
+  <div id="mode-badge">RIDDLES</div>
+
+  <div id="scene-viewport">
+    <div id="scene-bg"></div>
+    <div id="scene-art"></div>
+  </div>
+
+  <!-- HUNT LAYER -->
+  <div id="hunt-scene-layer"></div>
+
+  <!-- RIDDLE PANEL -->
+  <div id="riddle-panel">
+    <div class="scene-name-lbl" id="riddle-scene-name"></div>
+    <div id="riddle-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.32rem">
+        <span class="riddle-tag" id="riddle-setting"></span>
+        <span class="riddle-num" id="riddle-num"></span>
+      </div>
+      <div id="riddle-text"></div>
+      <div id="hint-text"></div>
+      <div id="hint-wrap">
+        <button id="hint-btn" onclick="useHint()">🕯 Use Hint</button>
+        <span id="pts-display"></span>
+      </div>
+    </div>
+    <div id="answer-grid"></div>
+  </div>
+
+  <!-- HUNT PANEL -->
+  <div id="hunt-panel">
+    <div class="scene-name-lbl" id="hunt-scene-name"></div>
+    <div id="hunt-instruction">
+      <div id="hunt-title">👁 Spot the Horror — Click to Hunt</div>
+      <div id="hunt-desc"></div>
+      <div id="creature-list"></div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENT TOAST -->
+  <div id="achieve-toast">
+    <div class="toast-label">Achievement Unlocked</div>
+    <div class="toast-name" id="toast-name"></div>
+    <div class="toast-desc" id="toast-desc"></div>
+  </div>
+</div>
+
+<!-- ROUND TRANSITION -->
+<div id="round-trans" class="hidden">
+  <div class="trans-setting" id="trans-setting"></div>
+  <div class="trans-title" id="trans-title"></div>
+  <div class="trans-mode" id="trans-mode"></div>
+  <div class="trans-desc" id="trans-desc"></div>
+  <div class="trans-bar"><div class="trans-bar-fill" id="trans-fill"></div></div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="s-results" class="screen">
+  <div class="result-skull">💀</div>
+  <div class="result-headline" id="r-headline">You Survived</div>
+  <div style="text-align:center">
+    <div class="result-score-big" id="r-score">0</div>
+    <div class="result-rank" id="r-rank"></div>
+  </div>
+  <div class="result-cards" id="r-cards"></div>
+  <div class="round-breakdown" id="r-breakdown"></div>
+  <div class="badges-section">
+    <div class="badges-title">◆ Achievements Earned</div>
+    <div class="badges-grid" id="r-badges"></div>
+  </div>
+  <div class="result-btns">
+    <button class="btn" onclick="startGame()">⚔ Play Again</button>
+    <button class="btn btn-ghost" onclick="goLB('global')">☠ Leaderboard</button>
+    <button class="btn btn-ghost" onclick="goLB('personal')">📜 My History</button>
+    <button class="btn btn-ghost" onclick="showScreen('s-intro')">⌂ Home</button>
+  </div>
+</div>
+
+<!-- ═══ LEADERBOARD ═══ -->
+<div id="s-lb" class="screen">
+  <h2 class="lb-head">☠ Hall of the Fallen ☠</h2>
+  <div class="lb-tabs">
+    <div class="lb-tab active" id="tab-global" onclick="switchTab('global')">Global</div>
+    <div class="lb-tab" id="tab-personal" onclick="switchTab('personal')">My History</div>
+  </div>
+  <div class="lb-table" id="lb-table"></div>
+  <div style="margin-top:1.1rem;display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center">
+    <button class="btn" onclick="startGame()">⚔ Play</button>
+    <button class="btn btn-ghost" onclick="showScreen('s-intro')">⌂ Home</button>
+    <button class="btn btn-ghost" style="font-size:.7rem;color:rgba(154,144,128,.3)" onclick="confirmClear()">clear data</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// SVG HELPERS
+// ════════════════════════════════════════════════
+function mkSVG(w,h){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox',`0 0 ${w} ${h}`);s.setAttribute('preserveAspectRatio','xMidYMid slice');s.style.cssText='position:absolute;inset:0;width:100%;height:100%;';return s;}
+function se(tag,attrs){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);return e;}
+
+// ════════════════════════════════════════════════
+// CREATURE SVG DRAWERS
+// ════════════════════════════════════════════════
+function drawGhost(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 60 65');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.appendChild(se('path',{d:'M10,30 Q10,5 30,5 Q50,5 50,30 L50,55 Q43,50 38,55 Q33,60 28,55 Q23,50 18,55 Q13,50 10,55 Z',fill:'rgba(200,195,225,0.18)',stroke:'rgba(180,170,210,0.6)','stroke-width':'1.5'}));
+  [20,38].forEach(x=>{g.appendChild(se('ellipse',{cx:x,cy:22,rx:5,ry:7,fill:'rgba(0,0,0,0.85)'}));g.appendChild(se('ellipse',{cx:x+2,cy:20,rx:2,ry:2,fill:'rgba(139,0,0,0.9)'}));});
+  g.appendChild(se('path',{d:'M22,35 Q30,42 38,35',stroke:'rgba(0,0,0,0.6)',fill:'none','stroke-width':'2','stroke-linecap':'round'}));
+  g.appendChild(se('ellipse',{cx:30,cy:30,rx:27,ry:33,fill:'none',stroke:'rgba(180,150,220,0.12)','stroke-width':'4'}));
+  s.appendChild(g);return s;
+}
+function drawSkull(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 60 65');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  s.appendChild(se('path',{d:'M5,35 Q5,5 30,5 Q55,5 55,35 Q55,50 45,55 L40,60 L20,60 L15,55 Q5,50 5,35Z',fill:'rgba(215,205,185,0.92)',stroke:'rgba(175,155,135,0.7)','stroke-width':'1'}));
+  [[15,30,8,10],[35,30,8,10]].forEach(([cx,cy,rx,ry])=>s.appendChild(se('ellipse',{cx,cy,rx,ry,fill:'#000'})));
+  s.appendChild(se('path',{d:'M25,42 L22,50 L28,50 Z',fill:'rgba(0,0,0,0.65)'}));
+  s.appendChild(se('path',{d:'M15,60 L15,55 L20,55 L20,60 M25,60 L25,55 L30,55 L30,60 M35,60 L35,55 L40,55 L40,60',fill:'rgba(215,205,185,0.92)',stroke:'rgba(155,135,115,0.6)','stroke-width':'1'}));
+  return s;
+}
+function drawEyeCreature(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 80 42');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  s.appendChild(se('ellipse',{cx:40,cy:21,rx:37,ry:17,fill:'rgba(232,222,205,0.95)',stroke:'rgba(175,155,135,0.5)','stroke-width':'1'}));
+  s.appendChild(se('circle',{cx:40,cy:21,r:12,fill:'rgba(130,15,15,0.97)'}));
+  s.appendChild(se('circle',{cx:40,cy:21,r:7,fill:'rgba(0,0,0,0.97)'}));
+  s.appendChild(se('circle',{cx:44,cy:17,r:2.5,fill:'rgba(255,255,255,0.75)'}));
+  const vg=se('g',{stroke:'rgba(175,0,0,0.45)','stroke-width':'.8',fill:'none'});
+  ['M5,21 Q20,16 30,21','M5,23 Q16,29 30,23','M75,19 Q60,14 50,21','M75,23 Q62,29 50,23'].forEach(d=>vg.appendChild(se('path',{d})));
+  s.appendChild(vg);return s;
+}
+function drawSpider(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 52 42');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  const wg=se('g',{stroke:'rgba(215,205,190,0.2)','stroke-width':'.7',fill:'none'});
+  [0,45,90,135].forEach(a=>{const r=a*Math.PI/180;['','-'].forEach(sg=>{const sign=sg==='-'?-1:1;wg.appendChild(se('line',{x1:26,y1:21,x2:26+sign*22*Math.cos(r),y2:21+sign*22*Math.sin(r)}));});});
+  [7,14,21].forEach(r=>wg.appendChild(se('circle',{cx:26,cy:21,r,stroke:'rgba(215,205,190,0.15)'})));
+  s.appendChild(wg);
+  s.appendChild(se('ellipse',{cx:26,cy:23,rx:6.5,ry:8.5,fill:'rgba(15,8,8,0.97)',stroke:'rgba(100,0,0,0.5)','stroke-width':'1'}));
+  s.appendChild(se('ellipse',{cx:26,cy:13,rx:5,ry:5,fill:'rgba(15,8,8,0.97)',stroke:'rgba(100,0,0,0.5)','stroke-width':'1'}));
+  [[22,11],[26,10],[30,11]].forEach(([cx,cy])=>s.appendChild(se('circle',{cx,cy,r:1.3,fill:'rgba(180,0,0,0.92)'})));
+  ['M18,19 Q8,13 2,9','M18,21 Q7,19 1,17','M18,23 Q8,25 2,27','M18,25 Q8,31 3,36','M34,19 Q44,13 50,9','M34,21 Q45,19 51,17','M34,23 Q44,25 50,27','M34,25 Q44,31 49,36'].forEach(d=>s.appendChild(se('path',{d,stroke:'rgba(25,12,8,0.92)','stroke-width':'1.5','stroke-linecap':'round',fill:'none'})));
+  return s;
+}
+function drawShadowFigure(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 50 88');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  s.appendChild(se('ellipse',{cx:25,cy:10,rx:9,ry:9,fill:'rgba(8,4,12,0.92)',stroke:'rgba(55,35,75,0.45)','stroke-width':'1'}));
+  s.appendChild(se('rect',{x:15,y:19,width:20,height:38,rx:2,fill:'rgba(8,4,12,0.95)',stroke:'rgba(55,35,75,0.45)','stroke-width':'1'}));
+  s.appendChild(se('path',{d:'M15,24 L2,43 M35,24 L48,43',stroke:'rgba(8,4,12,0.95)','stroke-width':'6.5','stroke-linecap':'round',fill:'none'}));
+  s.appendChild(se('path',{d:'M18,57 L15,80 M32,57 L35,80',stroke:'rgba(8,4,12,0.95)','stroke-width':'6.5','stroke-linecap':'round',fill:'none'}));
+  [[20,10],[30,10]].forEach(([x,y])=>s.appendChild(se('ellipse',{cx:x,cy:y,rx:3,ry:3,fill:'rgba(176,0,0,0.88)'})));
+  return s;
+}
+function drawDoll(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 52 82');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  s.appendChild(se('ellipse',{cx:26,cy:12,rx:11,ry:11,fill:'rgba(215,175,155,0.9)',stroke:'rgba(175,135,115,0.5)','stroke-width':'1'}));
+  s.appendChild(se('rect',{x:14,y:23,width:24,height:29,rx:3,fill:'rgba(175,48,48,0.88)',stroke:'rgba(135,28,28,0.5)','stroke-width':'1'}));
+  [[18,12],[34,12]].forEach(([x,y])=>s.appendChild(se('circle',{cx:x,cy:y,r:3,fill:'rgba(0,0,0,0.92)'})));
+  s.appendChild(se('path',{d:'M19,20 Q26,18 33,20',stroke:'rgba(175,95,75,0.75)','stroke-width':'1.5',fill:'none'}));
+  s.appendChild(se('path',{d:'M15,8 L22,16 L18,23',stroke:'rgba(0,0,0,0.45)','stroke-width':'1.5',fill:'none'}));
+  s.appendChild(se('path',{d:'M14,23 L8,40 M38,23 L44,40',stroke:'rgba(175,48,48,0.88)','stroke-width':'7.5','stroke-linecap':'round',fill:'none'}));
+  s.appendChild(se('path',{d:'M17,52 L14,76 M35,52 L38,76',stroke:'rgba(215,175,155,0.9)','stroke-width':'6','stroke-linecap':'round',fill:'none'}));
+  return s;
+}
+function drawWitch(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 55 90');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  // Hat
+  s.appendChild(se('path',{d:'M10,30 L28,2 L46,30 Z',fill:'rgba(12,8,18,0.95)',stroke:'rgba(75,45,95,0.5)','stroke-width':'1'}));
+  s.appendChild(se('ellipse',{cx:28,cy:30,rx:18,ry:4,fill:'rgba(12,8,18,0.95)',stroke:'rgba(75,45,95,0.5)','stroke-width':'1'}));
+  // Face
+  s.appendChild(se('ellipse',{cx:28,cy:42,rx:10,ry:10,fill:'rgba(155,165,105,0.9)',stroke:'rgba(115,125,75,0.5)','stroke-width':'1'}));
+  // Eyes (glowing)
+  [[23,40],[33,40]].forEach(([x,y])=>s.appendChild(se('ellipse',{cx:x,cy:y,rx:3,ry:3.5,fill:'rgba(200,170,0,0.95)'})));
+  [[23,40],[33,40]].forEach(([x,y])=>s.appendChild(se('circle',{cx:x,cy:y,r:1.5,fill:'rgba(0,0,0,0.95)'})));
+  // Nose
+  s.appendChild(se('path',{d:'M26,45 Q28,50 30,45',stroke:'rgba(115,125,75,0.6)','stroke-width':'1.2',fill:'none'}));
+  // Robe
+  s.appendChild(se('path',{d:'M18,52 L8,88 L48,88 L38,52 Z',fill:'rgba(18,10,28,0.95)',stroke:'rgba(75,45,95,0.45)','stroke-width':'1'}));
+  // Arms
+  s.appendChild(se('path',{d:'M18,55 L4,68 M38,55 L52,68',stroke:'rgba(18,10,28,0.95)','stroke-width':'6','stroke-linecap':'round',fill:'none'}));
+  // Stars on robe
+  [['M28,62 L29,65 L32,65 L30,67 L31,70 L28,68 L25,70 L26,67 L24,65 L27,65 Z','rgba(200,170,0,0.5)']].forEach(([d,fill])=>s.appendChild(se('path',{d,fill})));
+  return s;
+}
+function drawBat(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 80 40');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  // Body
+  s.appendChild(se('ellipse',{cx:40,cy:22,rx:8,ry:7,fill:'rgba(20,10,28,0.95)',stroke:'rgba(80,50,110,0.4)','stroke-width':'1'}));
+  // Wings
+  s.appendChild(se('path',{d:'M32,20 Q22,10 5,8 Q12,18 20,22 Q26,24 32,22Z',fill:'rgba(20,10,28,0.93)',stroke:'rgba(80,50,110,0.35)','stroke-width':'1'}));
+  s.appendChild(se('path',{d:'M48,20 Q58,10 75,8 Q68,18 60,22 Q54,24 48,22Z',fill:'rgba(20,10,28,0.93)',stroke:'rgba(80,50,110,0.35)','stroke-width':'1'}));
+  // Ears
+  s.appendChild(se('path',{d:'M36,16 L33,8 L40,13Z',fill:'rgba(20,10,28,0.95)'}));
+  s.appendChild(se('path',{d:'M44,16 L47,8 L40,13Z',fill:'rgba(20,10,28,0.95)'}));
+  // Eyes
+  [[37,21],[43,21]].forEach(([x,y])=>s.appendChild(se('circle',{cx:x,cy:y,r:2,fill:'rgba(220,0,0,0.9)'})));
+  // Fangs
+  s.appendChild(se('path',{d:'M38,27 L37,32 M42,27 L43,32',stroke:'rgba(215,205,185,0.85)','stroke-width':'1.5','stroke-linecap':'round',fill:'none'}));
+  return s;
+}
+function drawWerewolf(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 55 90');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  // Ears
+  s.appendChild(se('path',{d:'M16,18 L10,4 L24,14Z',fill:'rgba(55,38,25,0.95)'}));
+  s.appendChild(se('path',{d:'M39,18 L45,4 L31,14Z',fill:'rgba(55,38,25,0.95)'}));
+  // Head
+  s.appendChild(se('ellipse',{cx:28,cy:22,rx:14,ry:16,fill:'rgba(55,38,25,0.95)',stroke:'rgba(85,60,38,0.5)','stroke-width':'1'}));
+  // Snout
+  s.appendChild(se('path',{d:'M18,28 Q28,36 38,28 Q38,40 28,42 Q18,40 18,28Z',fill:'rgba(75,52,32,0.95)'}));
+  [[22,24],[34,24]].forEach(([x,y])=>s.appendChild(se('ellipse',{cx:x,cy:y,rx:3.5,ry:3,fill:'rgba(220,170,0,0.9)'})));
+  [[22,24],[34,24]].forEach(([x,y])=>s.appendChild(se('circle',{cx:x,cy:y,r:1.8,fill:'rgba(0,0,0,0.95)'})));
+  s.appendChild(se('circle',{cx:28,cy:34,r:4,fill:'rgba(55,35,25,0.95)'}));
+  // Fangs
+  s.appendChild(se('path',{d:'M24,37 L22,43 M32,37 L34,43',stroke:'rgba(215,205,185,0.88)','stroke-width':'2','stroke-linecap':'round',fill:'none'}));
+  // Body
+  s.appendChild(se('rect',{x:14,y:38,width:28,height:32,rx:3,fill:'rgba(48,33,20,0.95)'}));
+  // Arms with claws
+  s.appendChild(se('path',{d:'M14,42 L2,60 M41,42 L53,60',stroke:'rgba(48,33,20,0.95)','stroke-width':'8','stroke-linecap':'round',fill:'none'}));
+  // Legs
+  s.appendChild(se('path',{d:'M18,70 L15,88 M37,70 L40,88',stroke:'rgba(55,38,25,0.95)','stroke-width':'7','stroke-linecap':'round',fill:'none'}));
+  return s;
+}
+function drawVampire(){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 52 90');s.setAttribute('width','100%');s.setAttribute('height','100%');
+  // Cape spread
+  s.appendChild(se('path',{d:'M8,38 L0,88 L26,70 L52,88 L44,38 Z',fill:'rgba(80,0,15,0.88)',stroke:'rgba(120,10,22,0.4)','stroke-width':'1'}));
+  // Face
+  s.appendChild(se('ellipse',{cx:26,cy:18,rx:12,ry:14,fill:'rgba(215,205,195,0.92)',stroke:'rgba(175,165,155,0.4)','stroke-width':'1'}));
+  // Hair peak
+  s.appendChild(se('path',{d:'M14,10 L26,2 L38,10 Q36,4 26,6 Q16,4 14,10Z',fill:'rgba(12,8,18,0.95)'}));
+  // Eyes
+  [[20,16],[32,16]].forEach(([x,y])=>s.appendChild(se('ellipse',{cx:x,cy:y,rx:3.5,ry:3,fill:'rgba(165,0,0,0.95)'})));
+  // Fangs
+  s.appendChild(se('path',{d:'M22,27 L21,33 M30,27 L31,33',stroke:'rgba(215,205,185,0.9)','stroke-width':'2','stroke-linecap':'round',fill:'none'}));
+  // Blood drip
+  s.appendChild(se('path',{d:'M26,33 Q27,40 26,44',stroke:'rgba(176,28,46,0.8)','stroke-width':'1.8','stroke-linecap':'round',fill:'none'}));
+  // Shoulders
+  s.appendChild(se('rect',{x:10,y:32,width:32,height:18,rx:2,fill:'rgba(18,10,28,0.95)'}));
+  // Collar
+  s.appendChild(se('path',{d:'M10,32 L26,44 L42,32',stroke:'rgba(215,205,185,0.6)','stroke-width':'1',fill:'none'}));
+  return s;
+}
+
+// Creature draw fn map
+const CREATURE_FNS = {ghost:drawGhost,skull:drawSkull,eye:drawEyeCreature,spider:drawSpider,figure:drawShadowFigure,doll:drawDoll,witch:drawWitch,bat:drawBat,werewolf:drawWerewolf,vampire:drawVampire};
+
+// ════════════════════════════════════════════════
+// SCENE BACKGROUND DRAWERS
+// ════════════════════════════════════════════════
+function drawMansion(art){
+  const s=mkSVG(100,50);
+  for(let i=5;i<=95;i+=10)s.appendChild(se('line',{x1:i,y1:50,x2:50,y2:20,stroke:'rgba(40,20,15,.4)','stroke-width':'.3'}));
+  for(let x=10;x<=80;x+=20)s.appendChild(se('rect',{x,y:0,width:18,height:50,rx:.5,fill:'rgba(28,12,7,.7)',stroke:'rgba(55,22,10,.32)','stroke-width':'.4'}));
+  s.appendChild(se('rect',{x:0,y:35,width:100,height:1.5,fill:'rgba(55,30,17,.72)'}));
+  s.appendChild(se('path',{d:'M38,50 L38,24 Q50,16 62,24 L62,50',fill:'rgba(4,2,5,.93)',stroke:'rgba(45,18,8,.38)','stroke-width':'.6'}));
+  [[10,32],[90,32]].forEach(([cx,cy])=>{s.appendChild(se('rect',{x:cx-1,y:cy,width:2,height:8,fill:'rgba(130,95,45,.62)'}));s.appendChild(se('ellipse',{cx,cy,rx:4,ry:4,fill:'rgba(255,195,55,.78)'}));s.appendChild(se('ellipse',{cx,cy,rx:13,ry:11,fill:'none',stroke:'rgba(255,140,20,.05)','stroke-width':7}));});
+  [[18,6,14,10],[68,8,12,9]].forEach(([x,y,w,h])=>s.appendChild(se('rect',{x,y,width:w,height:h,fill:'rgba(16,7,3,.92)',stroke:'rgba(72,38,17,.52)','stroke-width':'.7'})));
+  s.appendChild(se('ellipse',{cx:50,cy:48,rx:20,ry:3.5,fill:'rgba(70,13,18,.35)'}));
+  art.appendChild(s);
+  [[18,55],[78,38],[50,22]].forEach(([l,t])=>{const o=document.createElement('div');o.style.cssText=`position:absolute;left:${l}%;top:${t}%;width:55px;height:55px;border-radius:50%;background:radial-gradient(circle,rgba(200,175,215,.05),transparent);pointer-events:none;animation:orbPulse ${3+Math.random()*2}s ease-in-out infinite;animation-delay:${Math.random()*3}s`;art.appendChild(o);});
+}
+function drawAsylum(art){
+  const s=mkSVG(100,50);
+  for(let r=0;r<10;r++)for(let c=0;c<12;c++)s.appendChild(se('rect',{x:c*9+(r%2?4:0),y:r*5,width:8,height:4,rx:.3,fill:`rgba(${25+r},${17+r},${15+r},.7)`,stroke:'rgba(12,8,7,.5)','stroke-width':.3}));
+  [30,70].forEach(cx=>s.appendChild(se('circle',{cx,cy:48,r:4,fill:'none',stroke:'rgba(28,22,18,.72)','stroke-width':.9})));
+  [[14,7,18,12],[63,5,20,14]].forEach(([x,y,w,h])=>{s.appendChild(se('rect',{x,y,width:w,height:h,fill:'rgba(4,2,5,.97)',stroke:'rgba(38,28,18,.52)','stroke-width':.6}));for(let bx=x+3;bx<x+w;bx+=4)s.appendChild(se('line',{x1:bx,y1:y,x2:bx,y2:y+h,stroke:'rgba(45,35,25,.7)','stroke-width':.75}));});
+  s.appendChild(se('ellipse',{cx:50,cy:46,rx:14,ry:4.5,fill:'rgba(88,5,13,.42)'}));
+  s.appendChild(se('path',{d:'M50,41 Q52,30 50,20',stroke:'rgba(88,5,13,.32)','stroke-width':1.7,'stroke-linecap':'round',fill:'none'}));
+  s.appendChild(se('rect',{x:55,y:28,width:18,height:20,fill:'none',stroke:'rgba(45,35,25,.52)','stroke-width':.75}));
+  for(let bx=58;bx<73;bx+=4)s.appendChild(se('line',{x1:bx,y1:28,x2:bx,y2:48,stroke:'rgba(45,35,25,.42)','stroke-width':.58}));
+  art.appendChild(s);
+  const o=document.createElement('div');o.style.cssText=`position:absolute;left:50%;top:35%;width:90px;height:90px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(16,52,8,.08),transparent);pointer-events:none;animation:orbPulse 2.5s ease-in-out infinite`;art.appendChild(o);
+}
+function drawForest(art){
+  const s=mkSVG(100,50);
+  s.appendChild(se('rect',{x:0,y:0,width:100,height:35,fill:'rgba(3,5,2,.92)'}));
+  s.appendChild(se('circle',{cx:80,cy:8,r:6,fill:'rgba(195,190,172,.12)',stroke:'rgba(195,190,172,.26)','stroke-width':.5}));
+  s.appendChild(se('circle',{cx:82,cy:7,r:4.5,fill:'rgba(3,5,2,.97)'}));
+  [[5,35],[15,28],[25,32],[35,25],[45,20],[55,23],[65,28],[75,30],[85,26],[95,32]].forEach(([x,top])=>{s.appendChild(se('rect',{x:x-.7,y:top,width:1.4,height:50-top,fill:'rgba(10,14,6,.96)'}));s.appendChild(se('path',{d:`M${x-5},${top+4} L${x},${top-5} L${x+5},${top+4}`,fill:'rgba(13,18,7,.92)'}));s.appendChild(se('path',{d:`M${x-3.5},${top+8} L${x},${top+1} L${x+3.5},${top+8}`,fill:'rgba(11,15,6,.96)'}));});
+  s.appendChild(se('ellipse',{cx:50,cy:48,rx:58,ry:7,fill:'rgba(28,38,18,.26)'}));
+  s.appendChild(se('line',{x1:50,y1:50,x2:50,y2:32,stroke:'rgba(72,54,35,.42)','stroke-width':.9}));
+  s.appendChild(se('rect',{x:47,y:29,width:6,height:5,rx:.5,fill:'rgba(35,27,12,.8)',stroke:'rgba(72,54,28,.35)','stroke-width':.45}));
+  s.appendChild(se('ellipse',{cx:50,cy:29,rx:3,ry:3,fill:'rgba(248,182,45,.62)'}));
+  s.appendChild(se('ellipse',{cx:50,cy:29,rx:11,ry:9,fill:'none',stroke:'rgba(248,155,25,.05)','stroke-width':5.5}));
+  for(let i=0;i<16;i++)s.appendChild(se('circle',{cx:Math.random()*100,cy:Math.random()*23,r:.55,fill:'rgba(215,210,192,.36)'}));
+  art.appendChild(s);
+  [[15,48],[82,38],[50,18]].forEach(([l,t])=>{const o=document.createElement('div');o.style.cssText=`position:absolute;left:${l}%;top:${t}%;width:45px;height:45px;border-radius:50%;background:radial-gradient(circle,rgba(35,72,18,.08),transparent);pointer-events:none;animation:orbPulse ${4+Math.random()*2}s ease-in-out infinite;animation-delay:${Math.random()*3}s`;art.appendChild(o);});
+}
+const SCENE_DRAWERS=[drawMansion,drawAsylum,drawForest];
+
+// ════════════════════════════════════════════════
+// GAME DATA
+// ════════════════════════════════════════════════
+const SETTINGS=[
+  {id:'mansion',name:'Thornwood Manor',tag:'HAUNTED MANSION',bg:'radial-gradient(ellipse at 60% 0%,#1a0a06 0%,#0c0508 50%,#060309 100%)'},
+  {id:'asylum',name:'Ravenscroft Asylum',tag:'ABANDONED ASYLUM',bg:'radial-gradient(ellipse at 30% 80%,#080e12 0%,#060309 50%,#040206 100%)'},
+  {id:'forest',name:'The Darkwood',tag:'CURSED FOREST',bg:'radial-gradient(ellipse at 50% 100%,#0a1206 0%,#060a05 50%,#030403 100%)'},
+];
+
+// Each setting has: riddles (5) + hunt (1 scene with creatures)
+const SETTING_DATA=[
+  {
+    riddles:[
+      {q:"I hung in the great hall for a hundred years, watching every guest arrive and none depart. My glass went dark the night the master died — and now reflects a face that isn't yours. What am I?",hint:"You check your appearance in me each morning.",answers:["The Cursed Mirror","A Grandfather Clock","The Family Portrait","A Cracked Window"],correct:0,pts:200},
+      {q:"In life I played requiems for the departed. In death, my ivory keys press themselves at midnight, though no hands touch them. The tune is always the same — the last song he ever heard. What am I?",hint:"A musical instrument with black and white keys.",answers:["A Violin","The Pipe Organ","The Grand Piano","A Music Box"],correct:2,pts:180},
+      {q:"I was sealed behind the east wall in 1887. The servants said it was storage. But at 3am you can hear breathing through my stones — and sometimes a knocking from within. What am I?",hint:"Built to keep something — or someone — contained.",answers:["A Priest Hole","The Bricked-Up Room","A Dumbwaiter Shaft","The Wine Cellar"],correct:1,pts:220},
+      {q:"I hold seventeen generations of the Thornwood family staring from gilded frames. One of us blinks. One of us smiles after you pass. Which of us watches you most? What are we?",hint:"Likenesses of the dead preserved on canvas.",answers:["Taxidermied Animals","The Ancestral Portraits","Stained Glass Windows","The Wax Figures"],correct:1,pts:190},
+      {q:"I was the master's favourite room — full of dark knowledge, leather bindings, forbidden pages. The last visitor who read from my shelves didn't leave. Their bookmark is still in place. What am I?",hint:"A room devoted entirely to books and study.",answers:["The Drawing Room","The Observatory","The Hidden Library","The Trophy Room"],correct:2,pts:250},
+    ],
+    hunt:{
+      desc:"Five horrors lurk within Thornwood Manor. Seek them out before the candles die.",
+      creatures:[
+        {id:'ghost',   label:'Wailing Ghost',    x:15,y:10,w:8, h:11,pts:120,draw:'ghost',   anim:'creatureFloat 3s ease-in-out infinite'},
+        {id:'vampire', label:'The Vampire',      x:72,y:15,w:7, h:12,pts:150,draw:'vampire',  anim:'creatureFloat 4s ease-in-out infinite .5s'},
+        {id:'skull',   label:'Grinning Skull',   x:82,y:62,w:6, h:7, pts:100,draw:'skull',   anim:''},
+        {id:'spider',  label:'Manor Spider',     x:48,y:5, w:6, h:5, pts:110,draw:'spider',  anim:'creatureWiggle 2s ease-in-out infinite'},
+        {id:'bat',     label:'Swooping Bat',     x:35,y:28,w:8, h:5, pts:90, draw:'bat',     anim:'creatureFloat 2s ease-in-out infinite 1s'},
+      ]
+    }
+  },
+  {
+    riddles:[
+      {q:"They strapped patients into me for 'therapeutic treatments.' My leather is still dark with fear. Doctors called my sessions cures. The patients called them something else. What am I?",hint:"A seat designed to restrain an unwilling occupant.",answers:["The Examination Table","The Electric Chair","The Restraint Chair","The Operating Theatre"],correct:2,pts:210},
+      {q:"Scratched into my plaster are 4,791 marks — one for each day a patient waited for release. Below them, five words in a different hand: 'They are not coming back.' What am I?",hint:"A surface inside a cell where prisoners mark time.",answers:["The Padded Cell Wall","The Floor Drain","The Iron Door","The Barred Window"],correct:0,pts:200},
+      {q:"I connect every floor of the building. My cables snapped in 1954. Yet at 2am my doors still open and close between floors, carrying something unseen. What am I?",hint:"A mechanical conveyance between floors.",answers:["The Back Staircase","The Dumbwaiter","The Freight Elevator","The Laundry Chute"],correct:2,pts:190},
+      {q:"They kept me full in ward seven — a fog that made patients 'manageable.' Dr. Harrow administered me three times daily. I am why some patients can't remember their own names. What am I?",hint:"A chemical substance dispensed as treatment.",answers:["Electroshock Therapy","The Lobotomy Pick","The Sedative Solution","Isolation Protocol"],correct:2,pts:180},
+      {q:"My file contains 847 incident reports, 23 escape attempts, and one final entry dated November 3rd, 1961 — just three words: 'Patient not found.' What am I?",hint:"A dossier kept on every person admitted.",answers:["The Master Registry","Patient File 44","The Doctor's Diary","The Discharge Records"],correct:1,pts:240},
+    ],
+    hunt:{
+      desc:"Six abominations haunt the asylum's crumbling corridors. Hunt them down.",
+      creatures:[
+        {id:'figure',     label:'Shadow Patient',  x:22,y:18,w:6, h:15,pts:130,draw:'figure',  anim:'creatureWiggle 3s ease-in-out infinite'},
+        {id:'eye',        label:'Watching Eye',    x:60,y:8, w:7, h:4, pts:110,draw:'eye',     anim:''},
+        {id:'spider',     label:'Cell Spider',     x:80,y:72,w:6, h:5, pts:100,draw:'spider',  anim:'creatureWiggle 1.8s ease-in-out infinite .3s'},
+        {id:'skull',      label:'Cracked Skull',   x:10,y:65,w:6, h:7, pts:100,draw:'skull',   anim:''},
+        {id:'doll',       label:'Patient Doll',    x:46,y:52,w:5, h:9, pts:140,draw:'doll',    anim:'creatureWiggle 4s ease-in-out infinite 1s'},
+        {id:'ghost',      label:'Ward Ghost',      x:35,y:12,w:7, h:10,pts:120,draw:'ghost',   anim:'creatureFloat 3.5s ease-in-out infinite'},
+      ]
+    }
+  },
+  {
+    riddles:[
+      {q:"I am older than the village that burned nearby. Animals refuse to sleep beneath me. Children who carved their names into my bark were never seen again. I am one tree. Which one?",hint:"An ancient solitary tree with a dark reputation.",answers:["The Hanging Oak","The Deadwood Pine","The Gallows Elm","The Witch's Yew"],correct:3,pts:220},
+      {q:"I appear only between midnight and 3am, moving between trees just out of sight. I have no footprints. No breath in cold air. Yet you hear the sound of dragging behind you. What am I?",hint:"A presence that follows without ever being seen.",answers:["The Fog","The Shadow Stalker","The Black Deer","The Wandering Corpse"],correct:1,pts:230},
+      {q:"I am the clearing at the forest's heart where no birds sing and no insects call. The grass grows in a perfect circle but nothing grows at the centre. Bones found here each spring. What am I?",hint:"A circular space where ancient rituals were performed.",answers:["The Sinkhole","The Fairy Ring","The Witches' Circle","The Old Burial Mound"],correct:2,pts:210},
+      {q:"Every night at dusk I ring three times from a steeple no map records. Locals say the first toll is for the past, the second for the present, and the third — they won't finish that sentence. What am I?",hint:"An instrument that marks time and warns the faithful.",answers:["The Death Bell","The Storm Warning","The Church Bell","The Fog Horn"],correct:2,pts:190},
+      {q:"I lead deeper into the Darkwood, away from all others. My stones are old and green with moss. At the first fork, both paths show the same fresh bootprint — yours — going inward, never out. What am I?",hint:"A route through terrain with no guarantee of return.",answers:["The Deer Trail","The Unmarked Path","The River Crossing","The Hunter's Road"],correct:1,pts:260},
+    ],
+    hunt:{
+      desc:"Seven creatures of the Darkwood stalk the shadows between the trees. Find them all.",
+      creatures:[
+        {id:'witch',      label:'The Witch',       x:18,y:22,w:6, h:12,pts:140,draw:'witch',    anim:'creatureFloat 4s ease-in-out infinite'},
+        {id:'werewolf',   label:'Werewolf',        x:68,y:30,w:7, h:13,pts:160,draw:'werewolf', anim:'creatureWiggle 2.5s ease-in-out infinite'},
+        {id:'bat',        label:'Forest Bat',      x:40,y:8, w:8, h:5, pts:90, draw:'bat',      anim:'creatureFloat 2s ease-in-out infinite .8s'},
+        {id:'ghost',      label:'Wood Wraith',     x:82,y:12,w:7, h:10,pts:120,draw:'ghost',    anim:'creatureFloat 3s ease-in-out infinite .4s'},
+        {id:'eye',        label:'Tree Eye',        x:55,y:45,w:6, h:3, pts:100,draw:'eye',      anim:''},
+        {id:'spider',     label:'Web Spinner',     x:8,y:55, w:6, h:5, pts:100,draw:'spider',   anim:'creatureWiggle 2s ease-in-out infinite 1.2s'},
+        {id:'skull',      label:'Bone Pile',       x:72,y:68,w:6, h:7, pts:110,draw:'skull',   anim:''},
+      ]
+    }
+  }
+];
+
+const ACHIEVEMENTS=[
+  {id:'first_blood',name:'First Blood',desc:'Solve your first riddle.',icon:'🩸',rarity:'common'},
+  {id:'first_hunt',name:'First Hunt',desc:'Spot your first creature.',icon:'👁',rarity:'common'},
+  {id:'speedrun',name:'Speedrunner',desc:'Answer correctly in under 4s.',icon:'⚡',rarity:'common'},
+  {id:'no_hint',name:'Unaided',desc:'Solve 5 riddles without a hint.',icon:'🕯',rarity:'common'},
+  {id:'perfect_riddle_round',name:'Sharp Mind',desc:'No wrong answers in a riddle round.',icon:'🔮',rarity:'rare'},
+  {id:'perfect_hunt',name:'Perfect Hunt',desc:'Find all creatures in a hunt.',icon:'💀',rarity:'rare'},
+  {id:'combo_master',name:'On a Roll',desc:'3 correct riddles in a row.',icon:'🗡',rarity:'rare'},
+  {id:'all_rounds',name:'Survived the Night',desc:'Complete all six rounds.',icon:'🌑',rarity:'rare'},
+  {id:'no_hints_game',name:'In the Dark',desc:'Complete a full game with no hints.',icon:'🌑',rarity:'rare'},
+  {id:'high_score',name:'Top Scorer',desc:'Score over 3,000 points.',icon:'🔪',rarity:'rare'},
+  {id:'master_hunter',name:'Creature Master',desc:'Find all creatures in all hunts.',icon:'🐺',rarity:'legendary'},
+  {id:'iron_mind',name:'Iron Mind',desc:'Perfect accuracy across all riddles.',icon:'⚰',rarity:'legendary'},
+  {id:'legend',name:'Legend of the Dark',desc:'Score over 6,000 points.',icon:'👑',rarity:'legendary'},
+];
+
+// ════════════════════════════════════════════════
+// GAME STATE
+// ════════════════════════════════════════════════
+// Structure: each "round" = riddle phase then hunt phase, 3 settings
+// Phase: 'riddle' | 'hunt'
+const GS={
+  player:'',score:0,settingIdx:0,phase:'riddle',
+  riddleIdx:0,answered:false,hintThisRound:false,
+  wrongThisRound:0,wrongTotal:0,correctStreak:0,
+  totalCorrect:0,totalRiddles:0,hintThisGame:0,
+  answeredWithoutHint:0,correctUnder4s:0,
+  timer:0,timerInt:null,answerTime:0,
+  huntFound:new Set(),huntTotal:0,
+  totalCreaturesFound:0,totalCreaturesPossible:0,
+  roundLog:[],newAchievements:[],startTime:0,
+  wrongMisses:0,
+};
+
+// ════════════════════════════════════════════════
+// STORAGE
+// ════════════════════════════════════════════════
+const DB={
+  getAll(){try{return JSON.parse(localStorage.getItem('dr3_p')||'[]')}catch{return[]}},
+  save(a){try{localStorage.setItem('dr3_p',JSON.stringify(a))}catch{}},
+  getAch(n){try{return JSON.parse(localStorage.getItem('dr3_a_'+n)||'[]')}catch{return[]}},
+  saveAch(n,a){try{localStorage.setItem('dr3_a_'+n,JSON.stringify(a))}catch{}},
+  unlock(n,id){const a=this.getAch(n);if(!a.includes(id)){a.push(id);this.saveAch(n,a);return true;}return false;},
+  saveRun(name,score,data){
+    const all=this.getAll(),now=Date.now();
+    const run={...data,score,date:now};
+    const idx=all.findIndex(p=>p.name===name);
+    if(idx>=0){const p=all[idx];p.runs=(p.runs||0)+1;p.lastDate=now;p.history=(p.history||[]);p.history.unshift(run);if(p.history.length>20)p.history.pop();if(score>p.bestScore){p.bestScore=score;p.bestRun=run;}}
+    else all.push({name,bestScore:score,bestRun:run,runs:1,lastDate:now,history:[run]});
+    all.sort((a,b)=>b.bestScore-a.bestScore);this.save(all);return all;
+  },
+  getLB(){return this.getAll().slice(0,20)},
+  getHist(n){const p=this.getAll().find(x=>x.name===n);return p?p.history||[]:[]}
+};
+
+// ════════════════════════════════════════════════
+// SCREEN / NAV
+// ════════════════════════════════════════════════
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goLB(tab){showScreen('s-lb');renderLB(tab);}
+
+// ════════════════════════════════════════════════
+// INIT DRIPS
+// ════════════════════════════════════════════════
+function initDrips(){const b=document.getElementById('drip-bar');b.innerHTML='';for(let i=0;i<12;i++){const d=document.createElement('div');d.className='drip';d.style.cssText=`height:${12+Math.random()*45}px;--dur:${2+Math.random()*4}s;--del:${Math.random()*3.5}s`;b.appendChild(d);}}
+initDrips();
+
+// ════════════════════════════════════════════════
+// START GAME
+// ════════════════════════════════════════════════
+function startGame(){
+  const inp=document.getElementById('player-name');
+  GS.player=inp.value.trim()||'Unknown Soul';
+  Object.assign(GS,{score:0,settingIdx:0,phase:'riddle',riddleIdx:0,answered:false,
+    hintThisRound:false,wrongThisRound:0,wrongTotal:0,correctStreak:0,
+    totalCorrect:0,totalRiddles:0,hintThisGame:0,answeredWithoutHint:0,
+    correctUnder4s:0,huntFound:new Set(),huntTotal:0,totalCreaturesFound:0,
+    totalCreaturesPossible:0,roundLog:[],newAchievements:[],startTime:Date.now(),wrongMisses:0
+  });
+  document.getElementById('h-player').textContent=GS.player;
+  showRoundTrans(0,'riddle',()=>{showScreen('s-game');startRiddlePhase();});
+}
+
+// ════════════════════════════════════════════════
+// ROUND TRANSITION
+// ════════════════════════════════════════════════
+function showRoundTrans(settingIdx,nextPhase,cb){
+  const s=SETTINGS[settingIdx];
+  document.getElementById('trans-setting').textContent=s.tag;
+  document.getElementById('trans-title').textContent=s.name;
+  const modeEl=document.getElementById('trans-mode');
+  const descEl=document.getElementById('trans-desc');
+  if(nextPhase==='riddle'){
+    modeEl.textContent='📜 Riddle Phase';modeEl.className='trans-mode riddle';
+    descEl.textContent='Answer the riddles of the dark. Speed earns more points.';
+  } else {
+    modeEl.textContent='👁 Creature Hunt';modeEl.className='trans-mode hunt';
+    descEl.textContent=SETTING_DATA[settingIdx].hunt.desc;
+  }
+  const t=document.getElementById('round-trans');t.classList.remove('hidden');
+  const fill=document.getElementById('trans-fill');fill.style.width='0%';
+  setTimeout(()=>fill.style.width='100%',80);
+  setTimeout(()=>{t.classList.add('hidden');if(cb)cb();},2500);
+}
+
+// ════════════════════════════════════════════════
+// SCENE DRAW
+// ════════════════════════════════════════════════
+function drawScene(idx){
+  document.getElementById('scene-bg').style.background=SETTINGS[idx].bg;
+  const art=document.getElementById('scene-art');art.innerHTML='';
+  SCENE_DRAWERS[idx](art);
+}
+
+// ════════════════════════════════════════════════
+// ░░░ RIDDLE PHASE ░░░
+// ════════════════════════════════════════════════
+function startRiddlePhase(){
+  GS.phase='riddle';GS.riddleIdx=0;GS.wrongThisRound=0;
+  document.getElementById('riddle-panel').style.display='block';
+  document.getElementById('hunt-panel').style.display='none';
+  document.getElementById('hunt-scene-layer').style.display='none';
+  document.getElementById('hunt-scene-layer').innerHTML='';
+  const mb=document.getElementById('mode-badge');mb.textContent='📜 RIDDLES';mb.style.color='var(--ember)';mb.style.borderColor='rgba(200,70,10,.35)';
+  document.getElementById('h-progress-lbl').textContent='Riddle';
+  drawScene(GS.settingIdx);
+  loadRiddle();
+}
+
+function loadRiddle(){
+  const sData=SETTING_DATA[GS.settingIdx],riddle=sData.riddles[GS.riddleIdx];
+  const totalRiddlesDone=GS.settingIdx*5+GS.riddleIdx;
+  GS.answered=false;GS.hintThisRound=false;GS.answerTime=Date.now();
+  document.getElementById('h-score').textContent=GS.score.toLocaleString();
+  document.getElementById('h-progress').textContent=`${GS.riddleIdx+1}/5`;
+  document.getElementById('riddle-scene-name').textContent=SETTINGS[GS.settingIdx].name;
+  document.getElementById('riddle-setting').textContent=SETTINGS[GS.settingIdx].tag;
+  document.getElementById('riddle-num').textContent=`RIDDLE ${GS.riddleIdx+1} of 5`;
+  document.getElementById('riddle-text').textContent=riddle.q;
+  document.getElementById('hint-text').style.display='none';
+  document.getElementById('hint-btn').disabled=false;
+  document.getElementById('hint-btn').textContent='🕯 Use Hint';
+  document.getElementById('pts-display').textContent=`Worth ${riddle.pts} pts`;
+  const totalDoneOverall=totalRiddlesDone+GS.settingIdx; // rough progress
+  document.getElementById('prog-fill').style.width=`${((GS.settingIdx*2+GS.riddleIdx/5)/6)*100}%`;
+  const grid=document.getElementById('answer-grid');grid.innerHTML='';
+  ['A','B','C','D'].forEach((letter,i)=>{
+    const btn=document.createElement('button');btn.className='answer-btn';
+    btn.innerHTML=`<span class="answer-letter">${letter}</span><span>${riddle.answers[i]}</span>`;
+    btn.addEventListener('click',()=>onRiddleAnswer(i,riddle.correct,riddle.pts));
+    grid.appendChild(btn);
+  });
+  startTimer(40);
+  document.getElementById('combo-display').textContent=GS.correctStreak>=2?`🔥 ${GS.correctStreak}× STREAK`:'';
+}
+
+function startTimer(secs){
+  clearInterval(GS.timerInt);GS.timer=secs;updTimer();
+  GS.timerInt=setInterval(()=>{GS.timer--;updTimer();if(GS.timer<=0){clearInterval(GS.timerInt);if(GS.phase==='riddle')onRiddleTimeout();else onHuntTimeout();}},1000);
+}
+function updTimer(){const t=document.getElementById('h-timer');t.textContent=GS.timer;t.classList.toggle('warn',GS.timer<=8);}
+
+function onRiddleTimeout(){if(GS.answered)return;GS.answered=true;GS.wrongTotal++;GS.wrongThisRound++;GS.correctStreak=0;revealCorrect();setTimeout(()=>advanceRiddle(),1700);}
+
+function onRiddleAnswer(chosen,correct,basePts){
+  if(GS.answered)return;GS.answered=true;clearInterval(GS.timerInt);GS.totalRiddles++;
+  const timeTaken=(Date.now()-GS.answerTime)/1000;
+  const btns=document.querySelectorAll('.answer-btn');
+  if(chosen===correct){
+    GS.totalCorrect++;GS.correctStreak++;
+    if(!GS.hintThisRound)GS.answeredWithoutHint++;
+    if(timeTaken<4)GS.correctUnder4s++;
+    const earned=basePts+Math.max(0,Math.floor(GS.timer*3))+(GS.correctStreak>1?(GS.correctStreak-1)*30:0)-(GS.hintThisRound?Math.floor(basePts*.3):0);
+    GS.score+=earned;btns[chosen].classList.add('correct');
+    showPtsPop(`+${earned}`,btns[chosen]);
+    if(GS.correctStreak>=2)document.getElementById('combo-display').textContent=`🔥 ${GS.correctStreak}× STREAK`;
+    checkAch_riddle();
+  } else {
+    GS.wrongTotal++;GS.wrongThisRound++;GS.correctStreak=0;
+    GS.score=Math.max(0,GS.score-50);btns[chosen].classList.add('wrong');revealCorrect();
+  }
+  document.getElementById('h-score').textContent=GS.score.toLocaleString();
+  btns.forEach(b=>b.classList.add('disabled'));
+  setTimeout(()=>advanceRiddle(),1550);
+}
+function revealCorrect(){const c=SETTING_DATA[GS.settingIdx].riddles[GS.riddleIdx].correct;const b=document.querySelectorAll('.answer-btn');if(b[c])b[c].classList.add('correct');}
+function useHint(){const r=SETTING_DATA[GS.settingIdx].riddles[GS.riddleIdx];GS.hintThisRound=true;GS.hintThisGame++;const ht=document.getElementById('hint-text');ht.textContent='🕯 '+r.hint;ht.style.display='block';const hb=document.getElementById('hint-btn');hb.disabled=true;hb.textContent='Hint used';}
+
+function advanceRiddle(){
+  GS.riddleIdx++;
+  if(GS.riddleIdx>=5){
+    // Log riddle round
+    const prevCorr=GS.roundLog.filter(r=>r.type==='riddle').reduce((a,r)=>a+r.correct,0);
+    GS.roundLog.push({type:'riddle',setting:SETTINGS[GS.settingIdx].name,tag:SETTINGS[GS.settingIdx].tag,correct:GS.totalCorrect-prevCorr,total:5,wrong:GS.wrongThisRound});
+    if(GS.wrongThisRound===0){const u='perfect_riddle_round';if(DB.unlock(GS.player,u)){GS.newAchievements.push(u);qToast(ACHIEVEMENTS.find(a=>a.id===u));}}
+    // Transition to Hunt
+    showRoundTrans(GS.settingIdx,'hunt',()=>startHuntPhase());
+  } else {
+    loadRiddle();
+  }
+}
+
+// ════════════════════════════════════════════════
+// ░░░ HUNT PHASE ░░░
+// ════════════════════════════════════════════════
+function startHuntPhase(){
+  GS.phase='hunt';
+  GS.huntFound=new Set();
+  const huntData=SETTING_DATA[GS.settingIdx].hunt;
+  GS.huntTotal=huntData.creatures.length;
+  GS.totalCreaturesPossible+=GS.huntTotal;
+
+  document.getElementById('riddle-panel').style.display='none';
+  document.getElementById('hunt-panel').style.display='block';
+  const hl=document.getElementById('hunt-scene-layer');
+  hl.style.display='block';hl.innerHTML='';
+
+  const mb=document.getElementById('mode-badge');mb.textContent='👁 CREATURE HUNT';mb.style.color='var(--greenlit)';mb.style.borderColor='rgba(93,184,64,.35)';
+  document.getElementById('h-progress-lbl').textContent='Found';
+  document.getElementById('h-progress').textContent=`0/${GS.huntTotal}`;
+  document.getElementById('hunt-scene-name').textContent=SETTINGS[GS.settingIdx].name;
+  document.getElementById('hunt-desc').textContent=huntData.desc;
+  document.getElementById('prog-fill').style.width=`${((GS.settingIdx*2+1)/6)*100}%`;
+
+  // Build creature chips
+  const cl=document.getElementById('creature-list');cl.innerHTML='';
+  huntData.creatures.forEach(c=>{
+    const chip=document.createElement('div');chip.className='creature-chip';chip.id=`chip-${c.id}-${GS.settingIdx}`;chip.textContent=c.label;cl.appendChild(chip);
+  });
+
+  // Place creatures in hunt layer
+  huntData.creatures.forEach(c=>placeCreature(c,hl));
+
+  // Wrong click on bare scene
+  hl.addEventListener('click',huntMissClick);
+  drawScene(GS.settingIdx);
+  startTimer(55);
+  document.getElementById('combo-display').textContent='';
+}
+
+function placeCreature(c,layer){
+  const wrap=document.createElement('div');
+  wrap.className='creature-target';
+  wrap.id=`ct-${c.id}-${GS.settingIdx}`;
+  wrap.style.cssText=`left:${c.x}%;top:${c.y}%;width:${c.w}%;height:${c.h}%;${c.anim?'animation:'+c.anim:''};`;
+  const svg=CREATURE_FNS[c.draw]();
+  svg.style.cssText='width:100%;height:100%;display:block;';
+  wrap.appendChild(svg);
+  wrap.addEventListener('click',e=>{e.stopPropagation();onCreatureClick(c,wrap,e);});
+  layer.appendChild(wrap);
+}
+
+function huntMissClick(e){
+  if(GS.phase!=='hunt')return;
+  if(e.target.closest('.creature-target'))return;
+  GS.wrongMisses++;GS.score=Math.max(0,GS.score-15);
+  document.getElementById('h-score').textContent=GS.score.toLocaleString();
+  const ov=document.createElement('div');ov.className='wrong-overlay';document.body.appendChild(ov);setTimeout(()=>ov.remove(),380);
+  const rip=document.createElement('div');rip.className='miss-ripple';rip.style.cssText=`left:${e.clientX}px;top:${e.clientY}px`;document.body.appendChild(rip);setTimeout(()=>rip.remove(),500);
+}
+
+function onCreatureClick(c,el,e){
+  if(GS.phase!=='hunt')return;
+  if(GS.huntFound.has(c.id))return;
+  GS.huntFound.add(c.id);GS.totalCreaturesFound++;
+
+  const timeBonusHunt=Math.max(0,Math.floor(GS.timer*2));
+  const earned=c.pts+timeBonusHunt;
+  GS.score+=earned;
+  document.getElementById('h-score').textContent=GS.score.toLocaleString();
+  document.getElementById('h-progress').textContent=`${GS.huntFound.size}/${GS.huntTotal}`;
+
+  // Found ring
+  const ring=document.createElement('div');ring.className='found-ring';ring.style.cssText=`left:${e.clientX}px;top:${e.clientY}px`;document.body.appendChild(ring);setTimeout(()=>ring.remove(),620);
+  // Pts pop
+  showPtsPop_xy(`+${earned}`,e.clientX,e.clientY-20);
+  // Particles
+  spawnParticles(e.clientX,e.clientY);
+  // Fade creature
+  el.classList.add('found-state');
+  // Chip
+  const chip=document.getElementById(`chip-${c.id}-${GS.settingIdx}`);if(chip)chip.classList.add('found');
+  // Progress bar
+  document.getElementById('prog-fill').style.width=`${((GS.settingIdx*2+1)/6)*100 + (GS.huntFound.size/GS.huntTotal)*(100/6)}%`;
+
+  checkAch_hunt();
+
+  if(GS.huntFound.size===GS.huntTotal){
+    clearInterval(GS.timerInt);
+    GS.score+=Math.floor(GS.timer*8); // Clear bonus
+    document.getElementById('h-score').textContent=GS.score.toLocaleString();
+    setTimeout(()=>advanceHunt(true),800);
+  }
+}
+
+function onHuntTimeout(){advanceHunt(false);}
+
+function advanceHunt(completed){
+  clearInterval(GS.timerInt);
+  const prevCF=GS.roundLog.filter(r=>r.type==='hunt').reduce((a,r)=>a+r.found,0);
+  GS.roundLog.push({type:'hunt',setting:SETTINGS[GS.settingIdx].name,tag:SETTINGS[GS.settingIdx].tag,found:GS.totalCreaturesFound-prevCF,total:GS.huntTotal,completed});
+  if(completed){const u='perfect_hunt';if(DB.unlock(GS.player,u)){GS.newAchievements.push(u);qToast(ACHIEVEMENTS.find(a=>a.id===u));}}
+  GS.settingIdx++;
+  if(GS.settingIdx>=SETTINGS.length){endGame();}
+  else{showRoundTrans(GS.settingIdx,'riddle',()=>{showScreen('s-game');startRiddlePhase();});}
+}
+
+// ════════════════════════════════════════════════
+// PARTICLES / POPUPS
+// ════════════════════════════════════════════════
+function spawnParticles(x,y){
+  for(let i=0;i<7;i++){const p=document.createElement('div');p.className='particle-dot';const angle=Math.random()*Math.PI*2,dist=25+Math.random()*55;p.style.cssText=`left:${x}px;top:${y}px;--px:${Math.cos(angle)*dist}px;--py:${Math.sin(angle)*dist}px;animation-delay:${Math.random()*.15}s;background:${Math.random()>.5?'var(--gore)':'var(--crimson)'}`;document.body.appendChild(p);setTimeout(()=>p.remove(),800);}
+}
+function showPtsPop(text,anchor){
+  const r=anchor?anchor.getBoundingClientRect():null;
+  showPtsPop_xy(text,r?r.left+r.width/2:window.innerWidth/2,r?r.top-10:150);
+}
+function showPtsPop_xy(text,x,y){
+  const pop=document.createElement('div');pop.className='ptspop';pop.style.cssText=`left:${x}px;top:${y}px;transform:translateX(-50%)`;pop.textContent=text;document.getElementById('s-game').appendChild(pop);setTimeout(()=>pop.remove(),850);
+}
+
+// ════════════════════════════════════════════════
+// ACHIEVEMENTS
+// ════════════════════════════════════════════════
+function checkAch_riddle(){
+  const u=(id)=>{if(DB.unlock(GS.player,id)){GS.newAchievements.push(id);qToast(ACHIEVEMENTS.find(a=>a.id===id));}};
+  if(GS.totalCorrect>=1)u('first_blood');
+  if(GS.answeredWithoutHint>=5)u('no_hint');
+  if(GS.correctUnder4s>=1)u('speedrun');
+  if(GS.correctStreak>=3)u('combo_master');
+  if(GS.score>=3000)u('high_score');
+  if(GS.score>=6000)u('legend');
+}
+function checkAch_hunt(){
+  const u=(id)=>{if(DB.unlock(GS.player,id)){GS.newAchievements.push(id);qToast(ACHIEVEMENTS.find(a=>a.id===id));}};
+  if(GS.totalCreaturesFound>=1)u('first_hunt');
+}
+
+let toastQ=[],toastOn=false;
+function qToast(ach){if(!ach)return;toastQ.push(ach);if(!toastOn)nextToast();}
+function nextToast(){
+  if(!toastQ.length){toastOn=false;return;}toastOn=true;
+  const ach=toastQ.shift();const toast=document.getElementById('achieve-toast');
+  document.getElementById('toast-name').textContent=ach.icon+' '+ach.name;
+  document.getElementById('toast-desc').textContent=ach.desc;
+  toast.style.display='block';toast.className='show';
+  setTimeout(()=>{toast.className='hide';setTimeout(()=>{toast.style.display='none';toast.className='';toastOn=false;nextToast();},420);},2600);
+}
+
+// ════════════════════════════════════════════════
+// END GAME
+// ════════════════════════════════════════════════
+function endGame(){
+  clearInterval(GS.timerInt);
+  const elapsed=Math.round((Date.now()-GS.startTime)/1000);
+  const accuracy=GS.totalRiddles?Math.round(GS.totalCorrect/GS.totalRiddles*100):0;
+  const huntPct=GS.totalCreaturesPossible?Math.round(GS.totalCreaturesFound/GS.totalCreaturesPossible*100):0;
+  const u=(id)=>{if(DB.unlock(GS.player,id)){GS.newAchievements.push(id);qToast(ACHIEVEMENTS.find(a=>a.id===id));}};
+  u('all_rounds');
+  if(GS.hintThisGame===0)u('no_hints_game');
+  if(accuracy===100&&GS.totalRiddles>0)u('iron_mind');
+  if(GS.totalCreaturesFound===GS.totalCreaturesPossible&&GS.totalCreaturesPossible>0)u('master_hunter');
+  const all=DB.saveRun(GS.player,GS.score,{correct:GS.totalCorrect,total:GS.totalRiddles,elapsed,accuracy,creaturesFound:GS.totalCreaturesFound,creaturesPossible:GS.totalCreaturesPossible,huntPct,rounds:GS.roundLog});
+  setTimeout(()=>renderResults(elapsed,accuracy,huntPct,all),700);
+}
+
+// ════════════════════════════════════════════════
+// RESULTS
+// ════════════════════════════════════════════════
+function renderResults(elapsed,accuracy,huntPct,allPlayers){
+  showScreen('s-results');
+  const pos=allPlayers.findIndex(p=>p.name===GS.player);
+  document.getElementById('r-headline').textContent=accuracy>=90&&huntPct>=80?'The Darkness Retreats':accuracy>=70?'You Survived...':accuracy>=50?'Barely Breathing':'A Sharp Mind Persists';
+  document.getElementById('r-score').textContent=GS.score.toLocaleString();
+  document.getElementById('r-rank').textContent=pos===0?'👁 #1 on the leaderboard':pos>=0?`Ranked #${pos+1} among all survivors`:'A new name is written in the dark...';
+  const mins=Math.floor(elapsed/60),secs=elapsed%60;
+  document.getElementById('r-cards').innerHTML=[
+    ['Riddles Solved',`${GS.totalCorrect}/${GS.totalRiddles}`,'hi'],
+    ['Riddle Accuracy',`${accuracy}%`,'hi'],
+    ['Creatures Found',`${GS.totalCreaturesFound}/${GS.totalCreaturesPossible}`,'hunt-hi'],
+    ['Hunt Accuracy',`${huntPct}%`,'hunt-hi'],
+    ['Wrong Answers',GS.wrongTotal,''],
+    ['Hints Used',GS.hintThisGame,''],
+    ['Miss Clicks',GS.wrongMisses,''],
+    ['Time Taken',`${mins>0?mins+'m ':''} ${secs}s`,''],
+  ].map(([l,v,c])=>`<div class="stat-card"><div class="stat-card-label">${l}</div><div class="stat-card-val ${c}">${v}</div></div>`).join('');
+  document.getElementById('r-breakdown').innerHTML=GS.roundLog.map((r,i)=>{
+    if(r.type==='riddle')return`<div class="rb-row" style="animation-delay:${i*.08}s"><div><span class="rb-tag riddle">RIDDLE</span>${r.setting}</div><div class="rb-score">${r.correct}/5 ✓</div></div>`;
+    return`<div class="rb-row" style="animation-delay:${i*.08}s"><div><span class="rb-tag hunt">HUNT</span>${r.setting}</div><div class="rb-score">${r.found}/${r.total} 👁</div></div>`;
+  }).join('');
+  const earned=ACHIEVEMENTS.filter(a=>DB.getAch(GS.player).includes(a.id));
+  document.getElementById('r-badges').innerHTML=earned.length?earned.map((a,i)=>`<div class="badge-chip ${a.rarity}" style="animation-delay:${i*.07}s">${a.icon} ${a.name}</div>`).join(''):'<div class="no-badges">No achievements yet — keep hunting.</div>';
+}
+
+// ════════════════════════════════════════════════
+// LEADERBOARD
+// ════════════════════════════════════════════════
+let curTab='global';
+function switchTab(tab){curTab=tab;document.getElementById('tab-global').classList.toggle('active',tab==='global');document.getElementById('tab-personal').classList.toggle('active',tab==='personal');renderLB(tab);}
+function renderLB(tab){
+  curTab=tab;
+  document.getElementById('tab-global').classList.toggle('active',tab==='global');
+  document.getElementById('tab-personal').classList.toggle('active',tab==='personal');
+  const table=document.getElementById('lb-table');
+  if(tab==='global'){
+    const lb=DB.getLB();
+    if(!lb.length){table.innerHTML='<div class="lb-empty">No survivors have been recorded.<br>Be the first.</div>';return;}
+    table.innerHTML=lb.map((p,i)=>{const isYou=p.name===GS.player;const crown=i===0?'crown':'';const medal=i===0?'💀':i===1?'🩸':i===2?'👁':'#'+(i+1);return`<div class="lb-row" style="animation-delay:${i*.04}s"><div class="lb-rank ${crown}">${medal}</div><div class="lb-name ${isYou?'you':''}">${p.name}${isYou?' ◀':''}</div><div class="lb-score-val">${p.bestScore.toLocaleString()}</div><div class="lb-runs">${p.runs}r</div></div>`;}).join('');
+  } else {
+    const hist=DB.getHist(GS.player);
+    if(!hist.length){table.innerHTML=`<div class="lb-empty">${GS.player?'No history yet for '+GS.player+'.':'Enter your name to see history.'}</div>`;return;}
+    table.innerHTML=`<div style="font-family:'VT323',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--ash);padding:.38rem 0;margin-bottom:.22rem;text-transform:uppercase">History — ${GS.player||'?'}</div>`+
+    hist.map((r,i)=>{const d=new Date(r.date);const ds=`${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;return`<div class="hist-row" style="animation-delay:${i*.04}s"><div><span style="font-family:'VT323',monospace;font-size:.7rem;color:var(--ember)">${r.correct||0}/${r.total||0} ✓ </span><span style="font-family:'VT323',monospace;font-size:.7rem;color:var(--greenlit)">${r.creaturesFound||0}/${r.creaturesPossible||0} 👁 </span>${r.accuracy||0}% acc</div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:.07rem"><div class="hist-score">${r.score.toLocaleString()}</div><div class="hist-date">${ds}</div></div></div>`;}).join('');
+  }
+}
+function confirmClear(){if(confirm('Clear all saved data?')){localStorage.clear();renderLB(curTab);}}
+
+// ════════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════════
+document.getElementById('player-name').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('s-game').classList.contains('active'))return;
+  if(GS.phase==='riddle'){
+    if(GS.answered)return;
+    const map={a:0,b:1,c:2,d:3,'1':0,'2':1,'3':2,'4':3};
+    const idx=map[e.key.toLowerCase()];
+    if(idx!==undefined){const b=document.querySelectorAll('.answer-btn');if(b[idx])b[idx].click();}
+    if(e.key==='h'||e.key==='H'){const hb=document.getElementById('hint-btn');if(!hb.disabled)hb.click();}
+  }
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js")
+      .then(reg => console.log("[Bhootagappa] SW registered:", reg.scope))
+      .catch(err => console.warn("[Bhootagappa] SW failed:", err));
+  });
+}
+// PWA install banner
+let _deferredInstall = null;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  _deferredInstall = e;
+  const bar = document.getElementById("install-bar");
+  if (bar) bar.classList.add("on");
+});
+function doInstall() {
+  if (_deferredInstall) { _deferredInstall.prompt(); _deferredInstall.userChoice.then(() => { _deferredInstall = null; }); }
+  const bar = document.getElementById("install-bar");
+  if (bar) bar.classList.remove("on");
+}
+function dismissInstall() {
+  const bar = document.getElementById("install-bar");
+  if (bar) bar.classList.remove("on");
+}
+window.addEventListener("appinstalled", () => dismissInstall());
+</script>
+</body>
+</html>
