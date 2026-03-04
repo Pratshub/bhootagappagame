@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="monospace" font-size="13">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#b01c2e"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5db840"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#9a9080"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="#060309"/>
+  <rect x="1" y="1" width="898" height="618" fill="none" stroke="#2a1520" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="bold" fill="#d4c9a8" font-family="serif">Bhootagappa — Game Architecture</text>
+  <text x="450" y="58" text-anchor="middle" font-size="12" fill="#9a9080" font-family="serif">by JustUtter Horror · Single-file PWA · Vanilla HTML/CSS/JS</text>
+  <line x1="60" y1="68" x2="840" y2="68" stroke="#2a1520" stroke-width="1"/>
+
+  <!-- ── LAYER: PLAYER ── -->
+  <rect x="30" y="82" width="840" height="54" rx="6" fill="#0d0510" stroke="#3a1525" stroke-width="1"/>
+  <text x="450" y="100" text-anchor="middle" font-size="11" fill="#9a9080">PLAYER LAYER</text>
+  <rect x="180" y="94" width="120" height="30" rx="4" fill="#1a0a0e" stroke="#7a0f1e" stroke-width="1"/>
+  <text x="240" y="114" text-anchor="middle" fill="#d4c9a8" font-size="12">Browser / PWA</text>
+  <rect x="390" y="94" width="120" height="30" rx="4" fill="#1a0a0e" stroke="#7a0f1e" stroke-width="1"/>
+  <text x="450" y="114" text-anchor="middle" fill="#d4c9a8" font-size="12">Touch / Click</text>
+  <rect x="600" y="94" width="120" height="30" rx="4" fill="#1a0a0e" stroke="#7a0f1e" stroke-width="1"/>
+  <text x="660" y="114" text-anchor="middle" fill="#d4c9a8" font-size="12">Keyboard A–D</text>
+
+  <!-- ── LAYER: SCREENS ── -->
+  <text x="40" y="165" font-size="11" fill="#9a9080">SCREENS</text>
+  <line x1="40" y1="170" x2="860" y2="170" stroke="#1a0a12" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Screen boxes -->
+  <rect x="30" y="178" width="130" height="52" rx="5" fill="#120810" stroke="#7a0f1e" stroke-width="1.5"/>
+  <text x="95" y="199" text-anchor="middle" fill="#c8460a" font-size="12" font-weight="bold">s-intro</text>
+  <text x="95" y="216" text-anchor="middle" fill="#9a9080" font-size="10">Name input</text>
+  <text x="95" y="228" text-anchor="middle" fill="#9a9080" font-size="10">Start / Leaderboard</text>
+
+  <rect x="200" y="178" width="130" height="52" rx="5" fill="#120810" stroke="#b01c2e" stroke-width="2"/>
+  <text x="265" y="199" text-anchor="middle" fill="#b01c2e" font-size="12" font-weight="bold">s-game</text>
+  <text x="265" y="216" text-anchor="middle" fill="#9a9080" font-size="10">HUD · Scene · Panels</text>
+  <text x="265" y="228" text-anchor="middle" fill="#9a9080" font-size="10">Riddle + Hunt phases</text>
+
+  <rect x="370" y="178" width="130" height="52" rx="5" fill="#120810" stroke="#7a0f1e" stroke-width="1.5"/>
+  <text x="435" y="199" text-anchor="middle" fill="#c8460a" font-size="12" font-weight="bold">round-trans</text>
+  <text x="435" y="216" text-anchor="middle" fill="#9a9080" font-size="10">Setting name</text>
+  <text x="435" y="228" text-anchor="middle" fill="#9a9080" font-size="10">Phase announcement</text>
+
+  <rect x="540" y="178" width="130" height="52" rx="5" fill="#120810" stroke="#7a0f1e" stroke-width="1.5"/>
+  <text x="605" y="199" text-anchor="middle" fill="#c8460a" font-size="12" font-weight="bold">s-results</text>
+  <text x="605" y="216" text-anchor="middle" fill="#9a9080" font-size="10">Score · Stats · Badges</text>
+  <text x="605" y="228" text-anchor="middle" fill="#9a9080" font-size="10">Round breakdown</text>
+
+  <rect x="710" y="178" width="130" height="52" rx="5" fill="#120810" stroke="#7a0f1e" stroke-width="1.5"/>
+  <text x="775" y="199" text-anchor="middle" fill="#c8460a" font-size="12" font-weight="bold">s-lb</text>
+  <text x="775" y="216" text-anchor="middle" fill="#9a9080" font-size="10">Global leaderboard</text>
+  <text x="775" y="228" text-anchor="middle" fill="#9a9080" font-size="10">Personal history</text>
+
+  <!-- ── GAME LOOP ── -->
+  <text x="40" y="265" font-size="11" fill="#9a9080">GAME LOOP  (3 settings × 2 phases = 6 rounds)</text>
+  <line x1="40" y1="270" x2="860" y2="270" stroke="#1a0a12" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Riddle Phase box -->
+  <rect x="30" y="280" width="390" height="150" rx="6" fill="#0e0814" stroke="#c8460a" stroke-width="1.5"/>
+  <text x="225" y="300" text-anchor="middle" fill="#c8460a" font-size="13" font-weight="bold">📜 RIDDLE PHASE  (5 riddles × 40s each)</text>
+
+  <rect x="50" y="310" width="160" height="36" rx="4" fill="#1a0a0e" stroke="#7a0f1e"/>
+  <text x="130" y="326" text-anchor="middle" fill="#d4c9a8" font-size="11">loadRiddle()</text>
+  <text x="130" y="339" text-anchor="middle" fill="#9a9080" font-size="10">Render Q + 4 options</text>
+
+  <rect x="240" y="310" width="160" height="36" rx="4" fill="#1a0a0e" stroke="#7a0f1e"/>
+  <text x="320" y="326" text-anchor="middle" fill="#d4c9a8" font-size="11">onRiddleAnswer()</text>
+  <text x="320" y="339" text-anchor="middle" fill="#9a9080" font-size="10">Score · streak · hint pen.</text>
+
+  <line x1="210" y1="328" x2="240" y2="328" stroke="#b01c2e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="50" y="362" width="160" height="36" rx="4" fill="#1a0a0e" stroke="#7a0f1e"/>
+  <text x="130" y="378" text-anchor="middle" fill="#d4c9a8" font-size="11">startTimer(40)</text>
+  <text x="130" y="391" text-anchor="middle" fill="#9a9080" font-size="10">Countdown · warn anim</text>
+
+  <rect x="240" y="362" width="160" height="36" rx="4" fill="#1a0a0e" stroke="#7a0f1e"/>
+  <text x="320" y="378" text-anchor="middle" fill="#d4c9a8" font-size="11">advanceRiddle()</text>
+  <text x="320" y="391" text-anchor="middle" fill="#9a9080" font-size="10">Next riddle or → Hunt</text>
+
+  <line x1="210" y1="380" x2="240" y2="380" stroke="#b01c2e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="410" width="200" height="12" rx="3" fill="#7a0f1e" opacity="0.25"/>
+  <text x="210" y="421" text-anchor="middle" fill="#9a9080" font-size="10">pts = base + timeBonus + streak − hintPenalty</text>
+
+  <!-- Hunt Phase box -->
+  <rect x="460" y="280" width="390" height="150" rx="6" fill="#080e08" stroke="#5db840" stroke-width="1.5"/>
+  <text x="655" y="300" text-anchor="middle" fill="#5db840" font-size="13" font-weight="bold">👁 CREATURE HUNT  (55s per scene)</text>
+
+  <rect x="480" y="310" width="160" height="36" rx="4" fill="#080e0a" stroke="#2a6b1a"/>
+  <text x="560" y="326" text-anchor="middle" fill="#d4c9a8" font-size="11">startHuntPhase()</text>
+  <text x="560" y="339" text-anchor="middle" fill="#9a9080" font-size="10">Place creature SVGs</text>
+
+  <rect x="670" y="310" width="160" height="36" rx="4" fill="#080e0a" stroke="#2a6b1a"/>
+  <text x="750" y="326" text-anchor="middle" fill="#d4c9a8" font-size="11">onCreatureClick()</text>
+  <text x="750" y="339" text-anchor="middle" fill="#9a9080" font-size="10">Ring · particles · pts pop</text>
+
+  <line x1="640" y1="328" x2="670" y2="328" stroke="#5db840" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <rect x="480" y="362" width="160" height="36" rx="4" fill="#080e0a" stroke="#2a6b1a"/>
+  <text x="560" y="378" text-anchor="middle" fill="#d4c9a8" font-size="11">huntMissClick()</text>
+  <text x="560" y="391" text-anchor="middle" fill="#9a9080" font-size="10">−15 pts · flash overlay</text>
+
+  <rect x="670" y="362" width="160" height="36" rx="4" fill="#080e0a" stroke="#2a6b1a"/>
+  <text x="750" y="378" text-anchor="middle" fill="#d4c9a8" font-size="11">advanceHunt()</text>
+  <text x="750" y="391" text-anchor="middle" fill="#9a9080" font-size="10">Next setting or endGame</text>
+
+  <line x1="640" y1="380" x2="670" y2="380" stroke="#5db840" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <rect x="540" y="410" width="200" height="12" rx="3" fill="#2a6b1a" opacity="0.25"/>
+  <text x="640" y="421" text-anchor="middle" fill="#9a9080" font-size="10">pts = creature.pts + (timer × 2)   clear bonus if all found</text>
+
+  <!-- Arrow between phases -->
+  <line x1="420" y1="355" x2="460" y2="355" stroke="#9a9080" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-gray)"/>
+  <text x="440" y="349" text-anchor="middle" fill="#9a9080" font-size="9">→ Hunt</text>
+
+  <!-- ── DATA LAYER ── -->
+  <text x="40" y="458" font-size="11" fill="#9a9080">DATA &amp; STATE</text>
+  <line x1="40" y1="463" x2="860" y2="463" stroke="#1a0a12" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <rect x="30" y="472" width="175" height="60" rx="5" fill="#0a0612" stroke="#3a2040"/>
+  <text x="117" y="490" text-anchor="middle" fill="#d4c9a8" font-size="12" font-weight="bold">GS (Game State)</text>
+  <text x="117" y="506" text-anchor="middle" fill="#9a9080" font-size="10">score · phase · settingIdx</text>
+  <text x="117" y="519" text-anchor="middle" fill="#9a9080" font-size="10">streak · huntFound · timer</text>
+
+  <rect x="230" y="472" width="175" height="60" rx="5" fill="#0a0612" stroke="#3a2040"/>
+  <text x="317" y="490" text-anchor="middle" fill="#d4c9a8" font-size="12" font-weight="bold">SETTING_DATA[]</text>
+  <text x="317" y="506" text-anchor="middle" fill="#9a9080" font-size="10">5 riddles per setting</text>
+  <text x="317" y="519" text-anchor="middle" fill="#9a9080" font-size="10">hunt creatures + positions</text>
+
+  <rect x="430" y="472" width="175" height="60" rx="5" fill="#0a0612" stroke="#3a2040"/>
+  <text x="517" y="490" text-anchor="middle" fill="#d4c9a8" font-size="12" font-weight="bold">DB (localStorage)</text>
+  <text x="517" y="506" text-anchor="middle" fill="#9a9080" font-size="10">saveRun · getLB · getHist</text>
+  <text x="517" y="519" text-anchor="middle" fill="#9a9080" font-size="10">unlock achievements</text>
+
+  <rect x="630" y="472" width="175" height="60" rx="5" fill="#0a0612" stroke="#3a2040"/>
+  <text x="717" y="490" text-anchor="middle" fill="#d4c9a8" font-size="12" font-weight="bold">ACHIEVEMENTS[]</text>
+  <text x="717" y="506" text-anchor="middle" fill="#9a9080" font-size="10">13 achievements · 4 tiers</text>
+  <text x="717" y="519" text-anchor="middle" fill="#9a9080" font-size="10">toast queue · unlock logic</text>
+
+  <!-- ── PWA LAYER ── -->
+  <text x="40" y="556" font-size="11" fill="#9a9080">PWA / OFFLINE LAYER</text>
+  <line x1="40" y1="561" x2="860" y2="561" stroke="#1a0a12" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <rect x="30" y="570" width="175" height="36" rx="5" fill="#0a0a14" stroke="#2a2a50"/>
+  <text x="117" y="586" text-anchor="middle" fill="#d4c9a8" font-size="11">manifest.json</text>
+  <text x="117" y="599" text-anchor="middle" fill="#9a9080" font-size="10">Install · icons · theme</text>
+
+  <rect x="230" y="570" width="175" height="36" rx="5" fill="#0a0a14" stroke="#2a2a50"/>
+  <text x="317" y="586" text-anchor="middle" fill="#d4c9a8" font-size="11">sw.js</text>
+  <text x="317" y="599" text-anchor="middle" fill="#9a9080" font-size="10">Cache-first · offline fallback</text>
+
+  <rect x="430" y="570" width="175" height="36" rx="5" fill="#0a0a14" stroke="#2a2a50"/>
+  <text x="517" y="586" text-anchor="middle" fill="#d4c9a8" font-size="11">Static Hosting</text>
+  <text x="517" y="599" text-anchor="middle" fill="#9a9080" font-size="10">Any web host · drag &amp; drop</text>
+
+  <rect x="630" y="570" width="175" height="36" rx="5" fill="#0a0a14" stroke="#2a2a50"/>
+  <text x="717" y="586" text-anchor="middle" fill="#d4c9a8" font-size="11">Zero Dependencies</text>
+  <text x="717" y="599" text-anchor="middle" fill="#9a9080" font-size="10">No build step · no framework</text>
+
+  <!-- Credit -->
+  <text x="860" y="615" text-anchor="end" font-size="10" fill="#3a2030">JustUtter Horror · Bhootagappa · github.com/Pratshub/bhootagappagame</text>
+</svg>

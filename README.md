@@ -1,14 +1,14 @@
 # 💀 Bhootagappa — by JustUtter Horror
 
-> *Solve the dark riddles. Spot the horror creatures. Survive the night. By JustUtter Horror.*
+> *Solve the dark riddles. Spot the horror creatures. Survive the night.*
 
-A fully offline-capable horror game built as a single-file PWA (Progressive Web App). No framework, no build step, no dependencies — just open `public/index.html` and play.
+A horror game built as a single-file PWA. Open `public/index.html` in any browser and play — no internet required after first load.
 
 ---
 
 ## 🎮 Gameplay
 
-Each of the **3 horror settings** has two phases:
+Each of the **3 horror settings** has two phases back to back:
 
 | Phase | Description |
 |-------|-------------|
@@ -24,10 +24,10 @@ Each of the **3 horror settings** has two phases:
 Ghost · Vampire · Skull · Spider · Bat · Shadow Figure · Watching Eye · Doll · Witch · Werewolf
 
 ### Scoring
-- Base riddle points + time bonus + streak multiplier - hint penalty
+- Base riddle points + time bonus + streak multiplier − hint penalty
 - Creature points + time remaining bonus
-- Wrong riddle answers: **-50 pts**
-- Hunt miss-clicks: **-15 pts**
+- Wrong riddle answers: **−50 pts**
+- Hunt miss-clicks: **−15 pts**
 
 ---
 
@@ -54,26 +54,52 @@ Ghost · Vampire · Skull · Spider · Bat · Shadow Figure · Watching Eye · D
 ## 📦 Project Structure
 
 ```
-bhootagappa/
-├── public/                 # Everything served to the browser
-│   ├── index.html          # The entire game (single file)
-│   ├── manifest.json       # PWA manifest
-│   ├── sw.js               # Service worker (offline support)
+bhootagappagame/
+├── public/
+│   ├── index.html       ← The entire game (open this to play)
+│   ├── manifest.json    ← PWA install config
+│   ├── sw.js            ← Offline service worker
 │   └── icons/
-│       ├── icon.svg        # Vector app icon
-│       ├── icon-192.png    # PWA icon (192×192) — generate from SVG
-│       └── icon-512.png    # PWA icon (512×512) — generate from SVG
-├── .github/
-│   └── workflows/
-│       └── deploy.yml      # GitHub Pages auto-deploy on push to main
-├── netlify.toml            # Netlify deploy config (alternative)
-├── .gitignore
+│       ├── icon.svg
+│       ├── icon-192.png
+│       └── icon-512.png
+├── ARCHITECTURE.md      ← Code explanation & diagrams
+├── ARCHITECTURE.svg     ← Visual architecture diagram
 └── README.md
 ```
 
 ---
 
+## 🏗 Architecture
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for a full explanation of the code structure, game loop, scoring system, and data layer.
+
+![Architecture Diagram](ARCHITECTURE.svg)
 
 ---
 
-*Built with pure HTML, CSS, and vanilla JavaScript. No frameworks. No build tools. Just horror. — JustUtter Horror*
+## 🌐 Browser Support
+
+| Browser | Support |
+|---------|---------|
+| Chrome 80+ | ✅ Full |
+| Firefox 75+ | ✅ Full |
+| Safari 14+ | ✅ Full |
+| Edge 80+ | ✅ Full |
+| Samsung Internet | ✅ Full |
+
+---
+
+## 📱 Installing as an App
+
+The game installs as a PWA on any device:
+
+| Platform | How |
+|----------|-----|
+| Android (Chrome) | Tap ⋮ → *Add to Home Screen* |
+| iOS (Safari) | Tap Share → *Add to Home Screen* |
+| Desktop (Chrome/Edge) | Click ⊕ in the address bar |
+
+---
+
+*JustUtter Horror · Built with pure HTML, CSS, and vanilla JavaScript. No frameworks. No build tools. Just horror.*
